@@ -6,7 +6,7 @@
     
     if ($DB_Config != false)
     {
-        $conn = new mysqli($DB_Config["IP"], $DB_Config["Username"], $DB_Config["Password"]);
+        $conn = new mysqli($DB_Config["IP"], $DB_Config["Username"], $DB_Config["Password"], $DB_Config["DBName"]);
 
         if ($conn->connect_error)
         {
