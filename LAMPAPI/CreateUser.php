@@ -8,4 +8,6 @@
 
     // Upon successfully creating a user will update DateCreated and DateLastLoggedIn with current datetime.
     // Additionally, should maybe forward the user to a login page or log them in.
+
+    
 ?>

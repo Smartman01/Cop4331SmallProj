@@ -5,4 +5,6 @@
         // input: varchar(100) (most you should enter is 100 chars (firstname + lastname length))
 
         // Returns the list of matched contacts in JSON format.
+
+        include "DBConnect.php";
 ?>

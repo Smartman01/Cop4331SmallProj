@@ -6,4 +6,6 @@
     // ID: int (id of the contact to remove, if that is actually applicable for this case)
 
     // Ensures the contact actually exists and is assigned to the user attempting removal.
+
+    include "DBConnect.php";
 ?>

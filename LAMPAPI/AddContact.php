@@ -8,4 +8,6 @@
     // UserID: int (the id of the current user)
 
     // Perhaps ensure that this exact contact does not already exist
+
+    include "DBConnect.php";
 ?>
