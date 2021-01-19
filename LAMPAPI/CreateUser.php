@@ -10,6 +10,7 @@
     // Additionally, should maybe forward the user to a login page or log them in.
 
     include "DBConnect.php";
+    include "ResponseLib.php";
 
     // Ensure that the necessary data has been passed
     // TODO: fill in $_POST names or modify for the way the front end passes the information
@@ -27,8 +28,14 @@
     }
     else if (empty($lastName))
     {
-        $responseObj->message = "Error: Missing last name input.";
-        echo json_encode($responseObj);
-        return
+        return fireError($responseObj, "Error: Missing last name input.");
+    }
+    else if (empty($username))
+    {
+        return fireError($responseObj, "Error: Missing username input.");
+    }
+    else if (empty($password))
+    {
+        return fireError($responseObj, "Error: Missing password input.");
     }
 ?>
