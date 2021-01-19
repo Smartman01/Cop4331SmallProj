@@ -15,13 +15,15 @@
     // Ensure that the necessary data has been passed
     // TODO: fill in $_POST names or modify for the way the front end passes the information
     // TODO: check with frontend about how they want to handle errors (e.g. error codes & messages)
-    $firstName = $_POST[''];
-    $lastName = $_POST[''];
-    $username = $_POST[''];
-    $password = $_POST[''];
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    echo "$firstName $lastName $username $password"
 
     $responseObj->status = -1;
-
+    
     if (empty($firstName))
     {
         return fireError($responseObj, "Error: Missing first name input.");
