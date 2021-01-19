@@ -7,6 +7,5 @@
     // Upon successful login will update the DateCreated field with the current datetime.
 
     include "DBConnect.php";
-
-    
+    include "ResponseLib.php";
 ?>

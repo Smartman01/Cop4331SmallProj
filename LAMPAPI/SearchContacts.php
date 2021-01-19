@@ -7,4 +7,5 @@
         // Returns the list of matched contacts in JSON format.
 
         include "DBConnect.php";
+        include "ResponseLib.php";
 ?>

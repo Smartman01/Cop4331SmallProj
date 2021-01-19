@@ -8,4 +8,5 @@
     // Ensures the contact actually exists and is assigned to the user attempting removal.
 
     include "DBConnect.php";
+    include "ResponseLib.php";
 ?>

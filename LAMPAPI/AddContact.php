@@ -10,4 +10,5 @@
     // Perhaps ensure that this exact contact does not already exist
 
     include "DBConnect.php";
+    include "ResponseLib.php";
 ?>
