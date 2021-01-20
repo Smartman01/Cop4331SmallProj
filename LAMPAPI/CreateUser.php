@@ -24,7 +24,7 @@
     // Used for testing prints info gotten from html (from Carl)
     // echo "$firstName $lastName $username $password"
 
-    $responseObj = {};
+    $responseObj = new stdClass();
     $responseObj->status = -1;
     
     if (empty($firstName))
