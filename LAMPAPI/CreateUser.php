@@ -86,5 +86,8 @@
         return fireError($responseObj, "Error: Server failed to create the user.");
     }
 
-    echo "$queryRes";
+    // Temporary "good" status return
+    return fireError($responseObj, "User Successfully created.", 1);
+
+    // TODO: log the user in (e.g. start their session)
 ?>
