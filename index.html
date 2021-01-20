@@ -23,12 +23,22 @@
         <h2>Andres - Database</h2>
         <h2>Don - Back-end</h2>
 
+        <h1>Register</h1>
+        <!-- The action attribute calls CreateUser api when info is submitted -->
         <form action="/LAMPAPI/CreateUser.php" method="POST">
             First name <input type="text" name="firstName"><br/>
             Last name <input type="text" name="lastName"><br/>
             Username <input type="text" name="username"><br/>
             Password <input type="text" name="password"><br/>
             <input type="submit" value="Create User">
+        </form>
+
+        <h1>Login</h1>
+        <!-- The action attribute calls Login api when info is submitted -->
+        <form action="/LAMPAPI/Login.php" method="POST">
+            Username <input type="text" name="username"><br/>
+            Password <input type="text" name="password"><br/>
+            <input type="submit" value="Login">
         </form>
         
         <script src="" async defer></script>

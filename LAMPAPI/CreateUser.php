@@ -20,7 +20,7 @@
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Used for testing prints info gotten from html
+    // Used for testing prints info gotten from html (from Carl)
     // echo "$firstName $lastName $username $password"
 
     $responseObj->status = -1;
