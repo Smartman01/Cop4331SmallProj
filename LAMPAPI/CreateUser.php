@@ -48,7 +48,7 @@
     // Figure this should happen so little that throwing an error for this is unimportant
     $firstName = substr($firstName, 0, 50);
     $lastName = substr($lastName, 0, 50);
-    $username = substr($username, 0, 50);
+    $username = strtolower(substr($username, 0, 50));
     $password = substr($password, 0, 50);
 
     // Ensure that the current username is not already taken
