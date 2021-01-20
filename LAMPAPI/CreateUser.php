@@ -4,7 +4,7 @@
     // FirstName: varchar(50)
     // LastName: varchar(50)
     // user: varchar(50)
-    // password: varchar(50)
+    // password: varchar(255)
 
     // Upon successfully creating a user will update DateCreated and DateLastLoggedIn with current datetime.
     // Additionally, should maybe forward the user to a login page or log them in.
@@ -49,7 +49,6 @@
     $firstName = substr($firstName, 0, 50);
     $lastName = substr($lastName, 0, 50);
     $username = strtolower(substr($username, 0, 50));
-    $password = substr($password, 0, 50);
 
     // Ensure that the current username is not already taken
     if ($getUser = $conn->prepare("SELECT ID FROM Users WHERE Login=?"))
@@ -69,4 +68,23 @@
     {
         return fireError($responseObj, "Error: Username already in use.");
     }
+
+    // Hash the password
+    $password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Create the user and insert it into the database
+    if ($createUser = $conn->prepare("INSERT INTO Users (FirstName, LastName, Login, Password) VALUES (?, ?, ?, ?)"))
+    {
+        $createUser->bind_param("ssss", $firstName, $lastName, $username, $password);
+        $createUser->execute();
+        $createUser->bind_result($queryRes);
+        $createUser->fetch();
+        $createUser->close();
+    }
+    else
+    {
+        return fireError($responseObj, "Error: Server failed to create the user.");
+    }
+
+    echo "$queryRes";
 ?>
