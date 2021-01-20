@@ -13,12 +13,13 @@
     include "ResponseLib.php";
 
     // Ensure that the necessary data has been passed
-    // TODO: fill in $_POST names or modify for the way the front end passes the information
     // TODO: check with frontend about how they want to handle errors (e.g. error codes & messages)
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
     $username = $_POST['username'];
     $password = $_POST['password'];
+
+    $queryRes = "";
 
     // Used for testing prints info gotten from html (from Carl)
     // echo "$firstName $lastName $username $password"
@@ -40,5 +41,24 @@
     else if (empty($password))
     {
         return fireError($responseObj, "Error: Missing password input.");
+    }
+
+    // Truncate the input to the maximum length allowed in the database
+    // Figure this should happen so little that throwing an error for this is unimportant
+    $firstName = substr($firstName, 0, 50);
+    $lastName = substr($lastName, 0, 50);
+    $username = substr($username, 0, 50);
+    $password = substr($password, 0, 50);
+
+    // Ensure that the current username is not already taken
+    $getUser = $conn->prepare("SELECT id FROM Users WHERE Login=?");
+    $getUser->bind_param("s", $username);
+    $getUser->execute();
+    $getUser->bind_result($queryRes);
+    $getUser->fetch();
+    
+    if (!empty($queryRes))
+    {
+        return fireError($responseObj, "Error: Username already in use.");
     }
 ?>
