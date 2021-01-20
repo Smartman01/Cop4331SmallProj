@@ -24,6 +24,7 @@
     // Used for testing prints info gotten from html (from Carl)
     // echo "$firstName $lastName $username $password"
 
+    $responseObj = {};
     $responseObj->status = -1;
     
     if (empty($firstName))
@@ -51,11 +52,18 @@
     $password = substr($password, 0, 50);
 
     // Ensure that the current username is not already taken
-    $getUser = $conn->prepare("SELECT id FROM Users WHERE Login=?");
-    $getUser->bind_param("s", $username);
-    $getUser->execute();
-    $getUser->bind_result($queryRes);
-    $getUser->fetch();
+    if ($getUser = $conn->prepare("SELECT ID FROM Users WHERE Login=?"))
+    {
+        $getUser->bind_param("s", $username);
+        $getUser->execute();
+        $getUser->bind_result($queryRes);
+        $getUser->fetch();
+        $getUser->close();
+    }
+    else
+    {
+        return fireError($responseObj, "Error: Server failed to check whether username is in use.");
+    }
     
     if (!empty($queryRes))
     {
