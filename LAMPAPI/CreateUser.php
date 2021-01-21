@@ -6,9 +6,6 @@
     // user: varchar(50)
     // password: varchar(255)
 
-    // Upon successfully creating a user will update DateCreated and DateLastLoggedIn with current datetime.
-    // Additionally, should maybe forward the user to a login page or log them in.
-
     include "DBConnect.php";
     include "ResponseLib.php";
 
@@ -89,5 +86,5 @@
     // Temporary "good" status return
     return fireError($responseObj, "User Successfully created.", 1);
 
-    // TODO: log the user in (e.g. start their session)
+    // TODO: log the user in (e.g. start their session), probably by returning an insecure cookie in JSON
 ?>
