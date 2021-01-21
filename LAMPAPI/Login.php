@@ -49,4 +49,18 @@
     {
         return fireError($responseObj, "Error: User not found.");
     }
+
+    // Check passed password compared to hashed one retrieved
+    if (password_verify($password, $queryRes))
+    {
+        // Password is valid, log the user in
+        // TODO: log the user in (e.g. start their session), probably by returning an insecure cookie in JSON
+        
+        // Temporary "good" status return
+        return fireError($responseObj, "User successfully logged in (but not really yet).", 1);
+    }
+    else
+    {
+        return fireError($responseObh, "Error: Password did not match.")
+    }
 ?>
