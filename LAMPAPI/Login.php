@@ -56,6 +56,21 @@
         // Password is valid, log the user in
         // TODO: log the user in (e.g. start their session), probably by returning an insecure cookie in JSON
         
+        // Update DateLastLoggedIn with current datetime
+        if ($updateDate = $conn->prepare("UPDATE Users SET DateLastLoggedIn=? WHERE Login=?"))
+        {
+            $updateDate->bind_param("ss", date('Y-m-d H:i:s'), $username);
+            $updateDate->execute();
+            $updateDate->bind_result($queryRes);
+            $updateDate->fetch();
+            $updateDate->close();
+        }
+        else
+        {
+            // Don't want to cancel the login attempt here but want to log the failure
+            error_log("Server failed to update DateLastLoggedIn");
+        }
+
         // Temporary "good" status return
         return fireError($responseObj, "User successfully logged in (but not really yet).", 1);
     }
