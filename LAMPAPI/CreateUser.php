@@ -10,7 +10,6 @@
     include "ResponseLib.php";
 
     // Ensure that the necessary data has been passed
-    // TODO: check with frontend about how they want to handle errors (e.g. error codes & messages)
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
     $username = $_POST['username'];
