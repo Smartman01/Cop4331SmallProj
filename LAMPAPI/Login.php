@@ -33,10 +33,20 @@
     // Check to see whether or not this user exists
     if ($getUserPass = $conn->prepare("SELECT password FROM Users WHERE Login=?"))
     {
-
+        $getUserPass->bind_param("s", $username);
+        $getUserPass->execute();
+        $getUserPass->bind_result($queryRes);
+        $getUserPass->fetch();
+        $getUserPass->close();
     }
     else
     {
         return fireError($responseObj, "Error: Server failed to check whether user exists.");
+    }
+
+    // Query result is empty, so no user with input username was found.
+    if (empty($queryRes))
+    {
+        return fireError($responseObj, "Error: User not found.");
     }
 ?>
