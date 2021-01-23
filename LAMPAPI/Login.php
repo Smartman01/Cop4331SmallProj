@@ -76,6 +76,6 @@
     }
     else
     {
-        return fireError($responseObh, "Error: Password did not match.")
+        return fireError($responseObh, "Error: Password did not match.");
     }
 ?>
