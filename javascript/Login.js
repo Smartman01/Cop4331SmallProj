@@ -1,1 +1,0 @@
-// Used to check if user has an account
