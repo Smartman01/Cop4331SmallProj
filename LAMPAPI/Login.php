@@ -10,8 +10,11 @@
     include "ResponseLib.php";
 
     // Ensure that the necessary data has been passed
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    // TODO: error handling for this, add to ResponseLib.php
+    $requestBody = json_decode(file_get_contents('php://input'));
+
+    $username = $requestBody->username;
+    $password = $requestBody->password;
 
     $queryRes = "";
 
