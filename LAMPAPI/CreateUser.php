@@ -79,7 +79,6 @@
         $createUser->bind_result($queryRes);
         $createUser->fetch();
         $createUser->close();
-        echo $queryRes;
     }
     else
     {
@@ -88,6 +87,15 @@
 
     // Generate authentication cookie and send to the client
     // In order to get the DateLastLoggedIn have to check what the DB has
+    if ($getLoginTime = $conn->prepare("SELECT DateLastLoggedIn FROM Users WHERE Login=?"))
+    {
+        $getLoginTime->bind_param("s", $username);
+        $getLoginTime->execute();
+        $getLoginTime->bind_result($queryRes);
+        $getLoginTime->fetch();
+        $getLoginTime->close();
+    }
+
     $authCookie = $username . "$/$" . $queryRes;
 
     $response = new stdClass();
