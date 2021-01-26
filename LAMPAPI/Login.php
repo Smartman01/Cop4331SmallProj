@@ -76,7 +76,8 @@
         $authCookie = $username . "$/$" . $currentDate;
 
         // Send the data necessary to log the user in
-        $response = {"cookie": $authCookie};
+        $response = new stdClass();
+        $response->cookie = $authCookie;
 
         return returnAsJson($responseObj, $response);
     }
