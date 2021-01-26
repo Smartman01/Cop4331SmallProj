@@ -95,6 +95,10 @@
         $getLoginTime->fetch();
         $getLoginTime->close();
     }
+    else
+    {
+        return fireError($responseObj, "Error: Server failed to log in the user, but aaccount has been created.", HTTP_INTERNAL_ERROR);
+    }
 
     $authCookie = $username . "$/$" . $queryRes;
 
