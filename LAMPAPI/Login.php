@@ -41,7 +41,7 @@
     }
     else
     {
-        return fireError($responseObj, "Error: Server failed to check whether user exists.");
+        return fireError($responseObj, "Error: Server failed to check whether user exists.", HTTP_INTERNAL_ERROR);
     }
 
     // Query result is empty, so no user with input username was found.

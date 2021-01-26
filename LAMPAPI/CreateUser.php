@@ -60,7 +60,7 @@
     }
     else
     {
-        return fireError($responseObj, "Error: Server failed to check whether username is in use.");
+        return fireError($responseObj, "Error: Server failed to check whether username is in use.", HTTP_INTERNAL_ERROR);
     }
     
     if (!empty($queryRes))
@@ -82,7 +82,7 @@
     }
     else
     {
-        return fireError($responseObj, "Error: Server failed to create the user.");
+        return fireError($responseObj, "Error: Server failed to create the user.", HTTP_INTERNAL_ERROR);
     }
 
     // Generate authentication cookie and send to the client
