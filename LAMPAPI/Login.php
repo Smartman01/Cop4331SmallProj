@@ -4,13 +4,10 @@
     // user: varchar(50)
     // password: varchar(255)
 
-    // Upon successful login will update the DateCreated field with the current datetime.
-
     include "DBConnect.php";
     include "ResponseLib.php";
 
     // Ensure that the necessary data has been passed
-    // TODO: error handling for this, add to ResponseLib.php
     $requestBody = json_decode(file_get_contents('php://input'));
 
     $username = $requestBody->username;

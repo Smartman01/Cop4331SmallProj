@@ -10,7 +10,6 @@
     include "ResponseLib.php";
 
     // Ensure that the necessary data has been passed
-    // TODO: error handling for this, add to ResponseLib.php
     // TODO: firstName and lastName are not required, so have variations of the query for these cases
     $requestBody = json_decode(file_get_contents('php://input'));
 
