@@ -79,14 +79,20 @@
         $createUser->bind_result($queryRes);
         $createUser->fetch();
         $createUser->close();
+        echo $queryRes;
     }
     else
     {
         return fireError($responseObj, "Error: Server failed to create the user.");
     }
 
-    // Temporary "good" status return
-    return fireError($responseObj, "User Successfully created.", 1);
+    // Generate authentication cookie and send to the client
+    // In order to get the DateLastLoggedIn have to check what the DB has
+    $authCookie = $username . "$/$" . $queryRes;
 
-    // TODO: log the user in (e.g. start their session), probably by returning an insecure cookie in JSON
+    $response = new stdClass();
+    $response->cookie = $authCookie;
+
+
+    return returnAsJson($responseObj, $response);
 ?>
