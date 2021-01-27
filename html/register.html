@@ -6,6 +6,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
+        <script type="text/javascript" src="../javascript/POST.js" async defer></script>
     </head>
 
     <body>
@@ -19,7 +20,7 @@
         <h1>Register</h1>
         <!-- The action attribute calls CreateUser api when info is submitted -->
         <!-- This needs to be changed to call javascript function -->
-        <form action="/LAMPAPI/CreateUser.php" method="POST">
+        <form onsubmit="return register()">
             <fieldset>
                 <legend>Register</legend>
                 <label for='first_name'>First Name</label>

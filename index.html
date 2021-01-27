@@ -28,7 +28,7 @@
 
         <!-- The action attribute calls Login api when info is submitted -->
         <!-- This needs to be changed to call javascript function -->
-        <form action="login()" method="POST">
+        <form onsubmit="return login()">
             <fieldset>
                 <legend>Login</legend>
                 <label for='userlogin'>Username</label>
