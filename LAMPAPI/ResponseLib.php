@@ -9,7 +9,7 @@
     // Set the header of any endpoints that include this to have the correct Content-Type
     header('Content-type: application/json');
 
-    function fireError($responseObj, $msg, int $responseCode = HTTP_BAD_REQUEST, int $status = -1) 
+    function returnError($responseObj, $msg, int $responseCode = HTTP_BAD_REQUEST, int $status = -1) 
     {
         // Set the header to indicate the request failed or was invalid
         if ($responseCode == HTTP_BAD_REQUEST)
@@ -29,6 +29,19 @@
         $responseObj->status = $status;
 
         echo json_encode($responseObj);
+
+        return -1;
+    }
+
+    function returnWrongRequestMethod()
+    {
+        header("HTTP/1.1 400 Bad Request");
+
+        $response = new stdClass();
+        $response->status = -1;
+        $response->message = "Error: The wrong request method was used for this endpoint.";
+
+        echo json_encode($response);
 
         return -1;
     }

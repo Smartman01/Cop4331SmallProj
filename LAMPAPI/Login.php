@@ -7,6 +7,12 @@
     include "DBConnect.php";
     include "ResponseLib.php";
 
+    // Ensure that the proper request method is used
+    if ($_SERVER['REQUEST_METHOD'] != "POST")
+    {
+        return returnWrongRequestMethod();
+    }
+
     // Ensure that the necessary data has been passed
     $requestBody = json_decode(file_get_contents('php://input'));
 
@@ -20,11 +26,11 @@
 
     if (empty($username))
     {
-        return fireError($responseObj, "Error: Missing username input.");
+        return returnError($responseObj, "Error: Missing username input.");
     }
     else if (empty($password))
     {
-        return fireError($responseObj, "Error: Missing password input.");
+        return returnError($responseObj, "Error: Missing password input.");
     }
 
     // Truncate the username to the maximum length allowed in the database
@@ -41,13 +47,13 @@
     }
     else
     {
-        return fireError($responseObj, "Error: Server failed to check whether user exists.", HTTP_INTERNAL_ERROR);
+        return returnError($responseObj, "Error: Server failed to check whether user exists.", HTTP_INTERNAL_ERROR);
     }
 
     // Query result is empty, so no user with input username was found.
     if (empty($queryRes))
     {
-        return fireError($responseObj, "Error: User not found.");
+        return returnError($responseObj, "Error: User not found.");
     }
 
     // Check passed password compared to hashed one retrieved
@@ -83,6 +89,6 @@
     }
     else
     {
-        return fireError($responseObh, "Error: Password did not match.");
+        return returnError($responseObh, "Error: Password did not match.");
     }
 ?>

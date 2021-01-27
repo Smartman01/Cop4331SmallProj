@@ -9,7 +9,12 @@
 
     // Ensure that the exactly specified contact does not already exist
 
-
     include "DBConnect.php";
     include "ResponseLib.php";
+
+    // Ensure that the proper request method is used
+    if ($_SERVER['REQUEST_METHOD'] != "POST")
+    {
+        return returnWrongRequestMethod();
+    }
 ?>

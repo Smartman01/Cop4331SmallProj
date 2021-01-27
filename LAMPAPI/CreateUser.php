@@ -9,6 +9,12 @@
     include "DBConnect.php";
     include "ResponseLib.php";
 
+    // Ensure that the proper request method is used
+    if ($_SERVER['REQUEST_METHOD'] != "POST")
+    {
+        return returnWrongRequestMethod();
+    }
+
     // Ensure that the necessary data has been passed
     // TODO: firstName and lastName are not required, so have variations of the query for these cases
     $requestBody = json_decode(file_get_contents('php://input'));
@@ -28,19 +34,19 @@
     
     if (empty($firstName))
     {
-        return fireError($responseObj, "Error: Missing first name input.");
+        return returnError($responseObj, "Error: Missing first name input.");
     }
     else if (empty($lastName))
     {
-        return fireError($responseObj, "Error: Missing last name input.");
+        return returnError($responseObj, "Error: Missing last name input.");
     }
     else if (empty($username))
     {
-        return fireError($responseObj, "Error: Missing username input.");
+        return returnError($responseObj, "Error: Missing username input.");
     }
     else if (empty($password))
     {
-        return fireError($responseObj, "Error: Missing password input.");
+        return returnError($responseObj, "Error: Missing password input.");
     }
 
     // Truncate the input to the maximum length allowed in the database
@@ -60,12 +66,12 @@
     }
     else
     {
-        return fireError($responseObj, "Error: Server failed to check whether username is in use.", HTTP_INTERNAL_ERROR);
+        return returnError($responseObj, "Error: Server failed to check whether username is in use.", HTTP_INTERNAL_ERROR);
     }
     
     if (!empty($queryRes))
     {
-        return fireError($responseObj, "Error: Username already in use.");
+        return returnError($responseObj, "Error: Username already in use.");
     }
 
     // Hash the password
@@ -82,7 +88,7 @@
     }
     else
     {
-        return fireError($responseObj, "Error: Server failed to create the user.", HTTP_INTERNAL_ERROR);
+        return returnError($responseObj, "Error: Server failed to create the user.", HTTP_INTERNAL_ERROR);
     }
 
     // Generate authentication cookie and send to the client
@@ -97,7 +103,7 @@
     }
     else
     {
-        return fireError($responseObj, "Error: Server failed to log in the user, but aaccount has been created.", HTTP_INTERNAL_ERROR);
+        return returnError($responseObj, "Error: Server failed to log in the user, but aaccount has been created.", HTTP_INTERNAL_ERROR);
     }
 
     $authCookie = $username . "$/$" . $queryRes;
