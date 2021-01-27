@@ -9,11 +9,20 @@
     include "DBConnect.php";
     include "ResponseLib.php";
 
+    // Ensure that the proper request method is used
+    if ($_SERVER['REQUEST_METHOD'] != "POST")
+    {
+        return returnWrongRequestMethod();
+    }
+
     // Ensure that the necessary data has been passed
-    $firstName = $_POST['firstName'];
-    $lastName = $_POST['lastName'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    // TODO: firstName and lastName are not required, so have variations of the query for these cases
+    $requestBody = json_decode(file_get_contents('php://input'));
+
+    $firstName = $requestBody->firstName;
+    $lastName = $requestBody->lastName;
+    $username = $requestBody->username;
+    $password = $requestBody->password;
 
     $queryRes = "";
 
@@ -25,19 +34,19 @@
     
     if (empty($firstName))
     {
-        return fireError($responseObj, "Error: Missing first name input.");
+        return returnError($responseObj, "Error: Missing first name input.");
     }
     else if (empty($lastName))
     {
-        return fireError($responseObj, "Error: Missing last name input.");
+        return returnError($responseObj, "Error: Missing last name input.");
     }
     else if (empty($username))
     {
-        return fireError($responseObj, "Error: Missing username input.");
+        return returnError($responseObj, "Error: Missing username input.");
     }
     else if (empty($password))
     {
-        return fireError($responseObj, "Error: Missing password input.");
+        return returnError($responseObj, "Error: Missing password input.");
     }
 
     // Truncate the input to the maximum length allowed in the database
@@ -57,12 +66,12 @@
     }
     else
     {
-        return fireError($responseObj, "Error: Server failed to check whether username is in use.");
+        return returnError($responseObj, "Error: Server failed to check whether username is in use.", HTTP_INTERNAL_ERROR);
     }
     
     if (!empty($queryRes))
     {
-        return fireError($responseObj, "Error: Username already in use.");
+        return returnError($responseObj, "Error: Username already in use.");
     }
 
     // Hash the password
@@ -79,11 +88,29 @@
     }
     else
     {
-        return fireError($responseObj, "Error: Server failed to create the user.");
+        return returnError($responseObj, "Error: Server failed to create the user.", HTTP_INTERNAL_ERROR);
     }
 
-    // Temporary "good" status return
-    return fireError($responseObj, "User Successfully created.", 1);
+    // Generate authentication cookie and send to the client
+    // In order to get the DateLastLoggedIn have to check what the DB has
+    if ($getLoginTime = $conn->prepare("SELECT DateLastLoggedIn FROM Users WHERE Login=?"))
+    {
+        $getLoginTime->bind_param("s", $username);
+        $getLoginTime->execute();
+        $getLoginTime->bind_result($queryRes);
+        $getLoginTime->fetch();
+        $getLoginTime->close();
+    }
+    else
+    {
+        return returnError($responseObj, "Error: Server failed to log in the user, but aaccount has been created.", HTTP_INTERNAL_ERROR);
+    }
 
-    // TODO: log the user in (e.g. start their session), probably by returning an insecure cookie in JSON
+    $authCookie = $username . "$/$" . $queryRes;
+
+    $response = new stdClass();
+    $response->cookie = $authCookie;
+
+
+    return returnAsJson($responseObj, $response);
 ?>

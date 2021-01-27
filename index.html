@@ -1,40 +1,37 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
 <html>
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Contact Manager</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <meta name="description" content="A user friendly contact manager.">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Contact Manager</title>
+        <link href="css/index.css" rel='stylesheet'>
         <script type="text/javascript" src="javascript/POST.js" async defer></script>
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
         <nav role="navigation">
             <ul class="navbar">
-                <li><a href="index.html">Home</a></li>
+                <li><a class="active" href="index.html">Home</a></li>
                 <li><a href="html/register.html">Register</a></li>
-                <li><a href="html/aboutus.html">About Us</a></li>
+                <li style="float:right"><a href="html/aboutus.html">About Us</a></li>
             </ul>
         </nav>
-        <h1>COP 4331 Group 4:</h1>
 
-        <!-- The action attribute calls Login api when info is submitted -->
-        <!-- This needs to be changed to call javascript function -->
+        <h1>Contact Manager</h1>
+
+        <p>
+            A useless piece of software designed by students for a school
+            project that will most likely fail. 
+        </p>
+
         <form onsubmit="return login()">
             <fieldset>
                 <legend>Login</legend>
-                <label for='userlogin'>Username</label>
-                <input name='userlogin' id="userlogin" type="text" required><br />
-                <label for='userpassword'>Password</label>
-                <input name='userpassword' id="userpassword" type="text" required><br />
+                <label for='username'>Username:</label><br>
+                <input name='username' id="username" type="text" required><br />
+                <label for='password'>Password:</label><br>
+                <input name='password' id="password" type="text" required><br /><br>
                 <button type="submit" value="Login">Login</button><br/>
             </fieldset>
         </form>

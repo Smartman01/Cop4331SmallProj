@@ -4,14 +4,20 @@
     // user: varchar(50)
     // password: varchar(255)
 
-    // Upon successful login will update the DateCreated field with the current datetime.
-
     include "DBConnect.php";
     include "ResponseLib.php";
 
+    // Ensure that the proper request method is used
+    if ($_SERVER['REQUEST_METHOD'] != "POST")
+    {
+        return returnWrongRequestMethod();
+    }
+
     // Ensure that the necessary data has been passed
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $requestBody = json_decode(file_get_contents('php://input'));
+
+    $username = $requestBody->username;
+    $password = $requestBody->password;
 
     $queryRes = "";
 
@@ -20,11 +26,11 @@
 
     if (empty($username))
     {
-        return fireError($responseObj, "Error: Missing username input.");
+        return returnError($responseObj, "Error: Missing username input.");
     }
     else if (empty($password))
     {
-        return fireError($responseObj, "Error: Missing password input.");
+        return returnError($responseObj, "Error: Missing password input.");
     }
 
     // Truncate the username to the maximum length allowed in the database
@@ -41,25 +47,25 @@
     }
     else
     {
-        return fireError($responseObj, "Error: Server failed to check whether user exists.");
+        return returnError($responseObj, "Error: Server failed to check whether user exists.", HTTP_INTERNAL_ERROR);
     }
 
     // Query result is empty, so no user with input username was found.
     if (empty($queryRes))
     {
-        return fireError($responseObj, "Error: User not found.");
+        return returnError($responseObj, "Error: User not found.");
     }
 
     // Check passed password compared to hashed one retrieved
     if (password_verify($password, $queryRes))
     {
         // Password is valid, log the user in
-        // TODO: log the user in (e.g. start their session), probably by returning an insecure cookie in JSON
         
         // Update DateLastLoggedIn with current datetime
+        $currentDate = date('Y-m-d H:i:s');
         if ($updateDate = $conn->prepare("UPDATE Users SET DateLastLoggedIn=? WHERE Login=?"))
         {
-            $updateDate->bind_param("ss", date('Y-m-d H:i:s'), $username);
+            $updateDate->bind_param("ss", $currentDate, $username);
             $updateDate->execute();
             $updateDate->bind_result($queryRes);
             $updateDate->fetch();
@@ -67,15 +73,22 @@
         }
         else
         {
-            // Don't want to cancel the login attempt here but want to log the failure
+            // Do not want to cancel the login attempt here but want to log the failure
             error_log("Server failed to update DateLastLoggedIn");
         }
 
-        // Temporary "good" status return
-        return fireError($responseObj, "User successfully logged in (but not really yet).", 1);
+        // Generate a "secure" authentication cookie so the server can validate CRUD operations
+        // Combines the username with the login time to later be checked
+        $authCookie = $username . "$/$" . $currentDate;
+
+        // Send the data necessary to log the user in
+        $response = new stdClass();
+        $response->cookie = $authCookie;
+
+        return returnAsJson($responseObj, $response);
     }
     else
     {
-        return fireError($responseObh, "Error: Password did not match.")
+        return returnError($responseObh, "Error: Password did not match.");
     }
 ?>
