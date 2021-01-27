@@ -5,15 +5,15 @@
         <title>Contact Manager</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="../css/register.css">
     </head>
 
     <body>
         <nav role="navigation">
             <ul class="navbar">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="register.html">Register</a></li>
-                <li><a href="aboutus.html">About Us</a></li>
+                <li><a class="active" href="register.html">Register</a></li>
+                <li style="float:right" ><a href="aboutus.html">About Us</a></li>
             </ul>
         </nav>
         <h1>Register</h1>
@@ -23,14 +23,14 @@
             <fieldset>
                 <legend>Register</legend>
                 <label for='first_name'>First Name</label>
-                <input name='first_name' id="first_name" type="text"><br />
+                <input name='first_name' id="first_name" type="text"><br>
                 <label for='last_name'>Last Name</label>
-                <input name='last_name' id="last_name" type="text"><br />
+                <input name='last_name' id="last_name" type="text"><br>
                 <label for='username'>Username</label>
-                <input name='username' id="username" type="text" required><br />
+                <input name='username' id="username" type="text" required><br>
                 <label for='password'>Password</label>
-                <input name='password' id="password" type="text" required><br />
-                <button type="submit">Create User</button><br /><br />
+                <input name='password' id="password" type="text" required><br><br>
+                <button type="submit">Create User</button><br>
             </fieldset>
         </form>
     </body>

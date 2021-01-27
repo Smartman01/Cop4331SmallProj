@@ -1,0 +1,40 @@
+body 
+{
+    background: #8B939C;
+    font-size: 16px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+ul 
+{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: black;
+}
+
+li 
+{
+  float: left;
+}
+
+li a 
+{
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover 
+{
+  background-color: darkblue;
+}
+
+.active
+{
+    background-color: #000040;
+}
