@@ -1,7 +1,7 @@
 // Used for making post request to api
 // Posts: Add, Create, Modify, Remove
 
-const baseUrl = "http://www.contactmanager.rocks/LAMPAPI";
+const baseUrl = "https://www.contactmanager.rocks/LAMPAPI";
 
 const loginAPI = "/Login.php"
 const createAPI = "/CreateUser.php"
@@ -33,7 +33,7 @@ function login()
 
         saveCookie();
 
-        window.location.replace("http://www.contactmanager.rocks/html/dashboard.html");
+        window.location.replace("https://www.contactmanager.rocks/html/dashboard.html");
         
         console.log(jsonObject);
         console.log(window.location.href);
