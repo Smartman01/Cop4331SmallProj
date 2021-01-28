@@ -1,7 +1,7 @@
 // Used for making post request to api
 // Posts: Add, Create, Modify, Remove
 
-const baseUrl = "http://174.138.56.41/LAMPAPI";
+const baseUrl = "http://www.contactmanager.rocks/LAMPAPI";
 
 const loginAPI = "/Login.php"
 const createAPI = "/CreateUser.php"
@@ -11,46 +11,64 @@ const removeContactAPI = "/RemoveContact.php"
 
 function login() 
 {
-    let username = document.getElementById("userlogin").value;
-    let password = document.getElementById("userpassword").value;
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
 
-    // var jsonPayload = '{"username" : "' + username + '", "password" : "' + password + '"}';
+    var jsonPayload = '{"username" : "' + username + '", "password" : "' + password + '"}';
 
-    // var xhr = new XMLHttpRequest();
-	// xhr.open("POST", baseUrl + loginAPI, false);
-    // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    // try
-    // {
-    //     xhr.send(jsonPayload);
+    var xhr = new XMLHttpRequest();
+	xhr.open("POST", baseUrl + loginAPI, false);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try
+    {
+        xhr.send(jsonPayload);
 		
-    //     var jsonObject = JSON.parse( xhr.responseText );
-        
-    //     alert(jsonObject);
-    // }
-    // catch (err)
-    // {
-    //     alert(err);
-    // }
-    
-    
-    fetch(baseUrl + loginAPI,
-    {
-        method: "POST",
-        headers:
+        var jsonObject = JSON.parse( xhr.responseText );
+
+        if (jsonObject.status !== 1)
         {
-            "Content-type" : "application/json; charset=UTF-8"
-        },
-        body:
-        {
-            username: username,
-            password: password
+            // document.getElementById("error").innerHTML = res.message;
+            return;
         }
-    })
-    .then(res =>
+
+        saveCookie();
+
+        window.location.replace("http://www.contactmanager.rocks/html/dashboard.html");
+        
+        console.log(jsonObject);
+        console.log(window.location.href);
+    }
+    catch (err)
     {
-        alert(res);
-    })
-    .catch(res => alert(res));
+        // document.getElementById("error").innerHTML = res.message;
+        console.log(err);
+    }
+    
+    // fetch(baseUrl + loginAPI,
+    // {
+    //     method: "POST",
+    //     headers:
+    //     {
+    //         "Content-type" : "application/json; charset=UTF-8"
+    //     },
+    //     body:
+    //     {
+    //         username: username,
+    //         password: password
+    //     }
+    // })
+    // .then(res =>
+    // {
+    //     if (res.status === -1)
+    //     {
+    //         // document.getElementById("error").innerHTML = res.message;
+    //         return;
+    //     }
+
+    //     // saveCookie(first, last)
+    //     console.log(res);
+    // })
+    // .catch(res => console.log(res));
 }
 
 function register()
@@ -60,24 +78,58 @@ function register()
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
-    fetch(baseUrl + createAPI,
+    var jsonPayload = '{"firstName" : "' + first + '", "lastName" : "' + last + '", "username" : "' + username + '", "password" : "' + password + '"}';
+
+    var xhr = new XMLHttpRequest();
+	xhr.open("POST", baseUrl + createAPI, false);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try
     {
-        method: "POST",
-        headers:
-        {
-            "Content-type" : "application/json; charset=UTF-8"
-        },
-        body:
-        {
-            firstName: first,
-            lastName: last,
-            username: username,
-            password: password
-        }
-    })
-    .then(res =>
+        xhr.send(jsonPayload);
+		
+        var jsonObject = JSON.parse( xhr.responseText );
+        
+        console.log(jsonObject);
+    }
+    catch (err)
     {
-        alert(res);
-    })
-    .catch(res => alert(res));
+        console.log(err);
+    }
+
+    // fetch(baseUrl + createAPI,
+    // {
+    //     method: "POST",
+    //     headers:
+    //     {
+    //         "Content-type" : "application/json; charset=UTF-8"
+    //     },
+    //     body:
+    //     {
+    //         firstName: first,
+    //         lastName: last,
+    //         username: username,
+    //         password: password
+    //     }
+    // })
+    // .then(res =>
+    // {
+    //     console.log(res)
+
+    //     // if (res.status === -1)
+    //     // {
+    //     //     document.getElementById("error").innerHTML = res.message;
+    //     //     return;
+    //     // }
+
+    //     // saveCookie(first, last)
+    // })
+    // .catch(res => console.log(res));
+}
+
+function saveCookie(first, last, id)
+{
+	var minutes = 20;
+	var date = new Date();
+	date.setTime(date.getTime()+(minutes*60*1000));	
+	document.cookie = "logged in=" + true + ";expires=" + date.toGMTString();
 }
