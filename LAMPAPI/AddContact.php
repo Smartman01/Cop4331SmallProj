@@ -94,11 +94,11 @@
     // All necessary checks have been passed, so create the new contact
     if ($createContact = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Phone, Email, UserID) VALUES (?,?,?,?,?)"))
     {
-        $getContact->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userID);
-        $getContact->execute();
-        $getContact->bind_result($queryRes);
-        $getContact->fetch();
-        $getContact->close();
+        $createContact->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userID);
+        $createContact->execute();
+        $createContact->bind_result($queryRes);
+        $createContact->fetch();
+        $createContact->close();
     }
     else
     {
