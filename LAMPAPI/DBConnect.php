@@ -17,7 +17,7 @@
 
     // Ensure that $auth correlates to a real user and is valid
     // $auth consists of a username and a timestamp, which is separated by the sequence "$/$"
-    function isAuthenticated($auth)
+    function isAuthenticated($auth, $conn)
     {
         $queryRes = "";
         $auth = explode("$/$", $auth);
