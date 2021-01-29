@@ -26,8 +26,7 @@
 
     $queryRes = "";
 
-    // Used for testing prints info gotten from html (from Carl)
-    // echo "$firstName $lastName $username $password"
+    
 
     $responseObj = new stdClass();
     $responseObj->status = -1;
