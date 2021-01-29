@@ -2,7 +2,7 @@
     // Not an endpoint, no requests to be made to this page
     // Simply provides a single configurtion and connection for DB interactions
 
-    $DB_Config = parse_ini_file("/var/www/DBConfig.config"));
+    $DB_Config = parse_ini_file("/var/www/DBConfig.config");
     
     if ($DB_Config != false)
     {
