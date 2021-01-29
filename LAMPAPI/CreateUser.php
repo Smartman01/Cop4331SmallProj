@@ -111,6 +111,5 @@
     $response = new stdClass();
     $response->cookie = $authCookie;
 
-
     return returnAsJson($responseObj, $response);
 ?>

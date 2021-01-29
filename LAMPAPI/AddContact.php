@@ -37,6 +37,9 @@
         return returnError($responseObj, "Error: At least one input must be provided.");
     }
 
+    $responseObj = new stdClass();
+    $responseObj->status = -1;
+
     // Truncate the input to the maximum length allowed in the database
     $firstName = substr($firstName, 0, 50);
     $lastName = substr($lastName, 0, 50);
@@ -85,4 +88,18 @@
     {
         return returnError($responseObj, "Error: This exact contact already exists.");
     }
+
+    // All necessary checks have been passed, so create the new contact
+    if ($createContact = $conn->prepare())
+    {
+
+    }
+    else
+    {
+        return returnError($responseObj, "Error: Server failed to create contact record.", HTTP_INTERNAL_ERROR);
+    }
+
+    $response = "Contact successfully created.";
+
+    return returnAsJson($responseObj, $response);
 ?>
