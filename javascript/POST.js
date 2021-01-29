@@ -27,48 +27,18 @@ function login()
 
         if (jsonObject.status !== 1)
         {
-            // document.getElementById("error").innerHTML = res.message;
+            document.getElementById("error").innerHTML = jsonObject.message;
             return;
         }
 
         saveCookie();
 
-        window.location.replace("https://www.contactmanager.rocks/html/dashboard.html");
-        
-        console.log(jsonObject);
-        console.log(window.location.href);
+        window.location.href = "https://www.contactmanager.rocks/html/dashboard.html";
     }
     catch (err)
     {
-        // document.getElementById("error").innerHTML = res.message;
-        console.log(err);
+        document.getElementById("error").innerHTML = err;
     }
-    
-    // fetch(baseUrl + loginAPI,
-    // {
-    //     method: "POST",
-    //     headers:
-    //     {
-    //         "Content-type" : "application/json; charset=UTF-8"
-    //     },
-    //     body:
-    //     {
-    //         username: username,
-    //         password: password
-    //     }
-    // })
-    // .then(res =>
-    // {
-    //     if (res.status === -1)
-    //     {
-    //         // document.getElementById("error").innerHTML = res.message;
-    //         return;
-    //     }
-
-    //     // saveCookie(first, last)
-    //     console.log(res);
-    // })
-    // .catch(res => console.log(res));
 }
 
 function register()
@@ -95,35 +65,6 @@ function register()
     {
         console.log(err);
     }
-
-    // fetch(baseUrl + createAPI,
-    // {
-    //     method: "POST",
-    //     headers:
-    //     {
-    //         "Content-type" : "application/json; charset=UTF-8"
-    //     },
-    //     body:
-    //     {
-    //         firstName: first,
-    //         lastName: last,
-    //         username: username,
-    //         password: password
-    //     }
-    // })
-    // .then(res =>
-    // {
-    //     console.log(res)
-
-    //     // if (res.status === -1)
-    //     // {
-    //     //     document.getElementById("error").innerHTML = res.message;
-    //     //     return;
-    //     // }
-
-    //     // saveCookie(first, last)
-    // })
-    // .catch(res => console.log(res));
 }
 
 function saveCookie(first, last, id)
