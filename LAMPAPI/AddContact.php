@@ -17,4 +17,23 @@
     {
         return returnWrongRequestMethod();
     }
+
+    // Ensure that the necessary data has been passed
+    // At least one contact field must be provided, and auth must always be given
+    $requestBody = json_decode(file_get_contents('php://input'));
+
+    $firstName = $requestBody->firstName;
+    $lastName = $requestBody->lastName;
+    $phone = $requestBody->phone;
+    $email = $requestBody->email;
+    $auth = $requestBody->auth;
+
+    if (empty($auth))
+    {
+        return returnError($responseObj, "Error: Missing authentication.");
+    }
+    else if (empty($firstName) && empty($lastName) && empty($phone) && empty($email))
+    {
+        return returnError($responseObj, "Error: At least one input must be provided.");
+    }
 ?>
