@@ -26,8 +26,8 @@
 
     $queryRes = "";
 
-    // Used for testing prints info gotten from html (from Carl)
-    // echo "$firstName $lastName $username $password"
+    // Disallow the sequence "$/$" in the username for future auth purposes
+    $username = str_replace("$/$", "$\\/$", $username);
 
     $responseObj = new stdClass();
     $responseObj->status = -1;

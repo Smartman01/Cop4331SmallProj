@@ -66,7 +66,6 @@
         return returnError($responseObj, "Error: Invalid auth cookie.");
     }
 
-
     // Ensure that the contact record being made does not already exist and belong to auth user
     $queryRes = "";
     if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (FirstName, LastName, Phone, Email, UserID) IN ((?,?,?,?,?))"))
