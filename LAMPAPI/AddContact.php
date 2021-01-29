@@ -46,30 +46,12 @@
     $phone = substr($phone, 0, 50);
     $email = substr($email, 0, 50);
 
-    // Ensure that $auth correlates to a real user and is valid
-    // $auth consists of a username and a timestamp, which is separated by the sequence "$/$"
-    // TODO: add this to ResponseLib since it will be used in every file
-    $queryRes = "";
-    $auth = explode("$/$", $auth);
-    if ($getAuthUser = $conn->prepare("SELECT ID FROM Users WHERE (Login, DateLastLoggedIn) IN ((?,?))"))
+    
+    // Check if the user is authenticated to perform this action
+    if ($userID = isAuthenticated($auth) == -1)
     {
-        $getAuthUser->bind_param("ss", $auth[0], $auth[1]);
-        $getAuthUser->execute();
-        $getAuthUser->bind_result($queryRes);
-        $getAuthUser->fetch();
-        $getAuthUser->close();
+        return returnError($responseObj, "Error: There was a failure to authenticate the user.", HTTP_INTERNAL_ERROR);
     }
-    else
-    {
-        return returnError($responseObj, "Error: Server failed to check whether user is authenticated.", HTTP_INTERNAL_ERROR);
-    }
-
-    if (empty($queryRes))
-    {
-        return returnError($responseObj, "Error: Invalid auth cookie.");
-    }
-
-    $userID = $queryRes;
 
     // Ensure that the contact record being made does not already exist and belong to auth user
     $queryRes = "";

@@ -13,4 +13,32 @@
             die("DB Connection failed: " . $conn->connect_error);
         }
     }
+
+
+    // Ensure that $auth correlates to a real user and is valid
+    // $auth consists of a username and a timestamp, which is separated by the sequence "$/$"
+    function isAuthenticated($auth)
+    {
+        $queryRes = "";
+        $auth = explode("$/$", $auth);
+        if ($getAuthUser = $conn->prepare("SELECT ID FROM Users WHERE (Login, DateLastLoggedIn) IN ((?,?))"))
+        {
+            $getAuthUser->bind_param("ss", $auth[0], $auth[1]);
+            $getAuthUser->execute();
+            $getAuthUser->bind_result($queryRes);
+            $getAuthUser->fetch();
+            $getAuthUser->close();
+        }
+        else
+        {
+            return -1;
+        }
+
+        if (empty($queryRes))
+        {
+            return -1;
+        }
+
+        return $queryRes;
+    }
 ?>
