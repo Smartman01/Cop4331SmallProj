@@ -80,4 +80,9 @@
     {
         return returnError($responseObj, "Error: Server failed to check whether contact record exists.", HTTP_INTERNAL_ERROR);
     }
+
+    if (!empty($queryRes))
+    {
+        return returnError($responseObj, "Error: This exact contact already exists.");
+    }
 ?>
