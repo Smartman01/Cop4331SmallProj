@@ -43,9 +43,12 @@
     $phone = substr($phone, 0, 50);
     $email = substr($email, 0, 50);
 
+    // TODO: Ensure that $auth correlates to a real user and is valid
+    $auth;
+
     // Ensure that the contact record being made does not already exist and belong to auth user
     $queryRes = "";
-    if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (FirstName, LastName, Phone, Email, UserID) IN ((?,?,?,?,?)) GROUP BY ID HAVING count(distinct FirstName, LastName, Phone, Email, UserID)=5"))
+    if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (FirstName, LastName, Phone, Email, UserID) IN ((?,?,?,?,?))"))
     {
         $getContact->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userID);
         $getContact->execute();
