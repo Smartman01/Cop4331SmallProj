@@ -69,6 +69,8 @@
         return returnError($responseObj, "Error: Invalid auth cookie.");
     }
 
+    $userID = $queryRes;
+
     // Ensure that the contact record being made does not already exist and belong to auth user
     $queryRes = "";
     if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (FirstName, LastName, Phone, Email, UserID) IN ((?,?,?,?,?))"))
@@ -90,9 +92,13 @@
     }
 
     // All necessary checks have been passed, so create the new contact
-    if ($createContact = $conn->prepare())
+    if ($createContact = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Phone, Email, UserID) VALUES (?,?,?,?,?)"))
     {
-
+        $getContact->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userID);
+        $getContact->execute();
+        $getContact->bind_result($queryRes);
+        $getContact->fetch();
+        $getContact->close();
     }
     else
     {
