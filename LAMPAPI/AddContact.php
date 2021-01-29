@@ -48,7 +48,8 @@
 
     
     // Check if the user is authenticated to perform this action
-    if ($userID = isAuthenticated($auth, $conn) == -1)
+    $userID = isAuthenticated($auth, $conn);
+    if ($userID == -1)
     {
         return returnError($responseObj, "Error: There was a failure to authenticate the user.", HTTP_INTERNAL_ERROR);
     }
