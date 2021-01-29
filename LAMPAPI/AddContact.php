@@ -43,5 +43,18 @@
     $phone = substr($phone, 0, 50);
     $email = substr($email, 0, 50);
 
-    
+    // Ensure that the contact record being made does not already exist and belong to auth user
+    $queryRes = "";
+    if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (FirstName, LastName, Phone, Email, UserID) IN ((?,?,?,?,?)) GROUP BY ID HAVING count(distinct FirstName, LastName, Phone, Email, UserID)=5"))
+    {
+        $getContact->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userID);
+        $getContact->execute();
+        $getContact->bind_result($queryRes);
+        $getContact->fetch();
+        $getContact->close();
+    }
+    else
+    {
+        return returnError($responseObj, "Error: Server failed to check whether contact record exists.", HTTP_INTERNAL_ERROR);
+    }
 ?>
