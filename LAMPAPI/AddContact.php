@@ -36,4 +36,12 @@
     {
         return returnError($responseObj, "Error: At least one input must be provided.");
     }
+
+    // Truncate the input to the maximum length allowed in the database
+    $firstName = substr($firstName, 0, 50);
+    $lastName = substr($lastName, 0, 50);
+    $phone = substr($phone, 0, 50);
+    $email = substr($email, 0, 50);
+
+    
 ?>
