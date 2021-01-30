@@ -74,14 +74,32 @@
         return returnError($responseObj, "Error: The specified contact ID either does not exist or does not belong to this user.");
     }
 
-    // Ensure that the updated contact is not a duplicate of an existing contact
-
-
-    // Update our input to never be empty (so the query is easy to form)
+    // Update our input to never be empty (so the update query is easy to form)
     $firstName = empty($firstName) ? $queryRes['FirstName'] : $firstName;
     $lastName = empty($lastName) ? $queryRes['LastName'] : $lastName;
     $phone = empty($phone) ? $queryRes['Phone'] : $phone;
     $email = empty($email) ? $queryRes['Email'] : $email;
+
+    // Ensure that the updated contact is not a duplicate of an existing contact
+    // This is done for the sake of consistency (e.g. you cannot add a contact that is a duplicate)
+    $contactFound = "";
+    if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (FirstName, LastName, Phone, Email, UserID) IN ((?,?,?,?,?))"))
+    {
+        $getContact->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userID);
+        $getContact->execute();
+        $getContact->bind_result($contactFound);
+        $getContact->fetch();
+        $getContact->close();
+    }
+    else
+    {
+        return returnError($responseObj, "Error: Server failed to check whether contact record exists.", HTTP_INTERNAL_ERROR);
+    }
+
+    if (!empty($contactFound))
+    {
+        return returnError($responseObj, "Error: This desired updated contact already exists (id:".$contactFound.")");
+    }
 
     // Update the specified contact record with any field passed
     if ($updateContact = $conn->prepare("UPDATE Contacts SET FirstName=?,LastName=?,Phone=?,Email=? WHERE ID=?"))
