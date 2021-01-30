@@ -61,8 +61,7 @@
     {
         $getContact->bind_param("ii", $contactID, $userID);
         $getContact->execute();
-        $getContact->bind_result($queryRes);
-        $getContact->fetch();
+        $queryRes = $getContact->get_result()->fetch_assoc();
         $getContact->close();
     }
     else
@@ -79,10 +78,10 @@
 
 
     // Update our input to never be empty (so the query is easy to form)
-    $firstName = empty($firstName) ? $queryRes->FirstName : $firstName;
-    $lastName = empty($lastName) ? $queryRes->LastName : $lastName;
-    $phone = empty($phone) ? $queryRes->Phone : $phone;
-    $email = empty($email) ? $queryRes->Email : $email;
+    $firstName = empty($firstName) ? $queryRes['FirstName'] : $firstName;
+    $lastName = empty($lastName) ? $queryRes['LastName'] : $lastName;
+    $phone = empty($phone) ? $queryRes['Phone'] : $phone;
+    $email = empty($email) ? $queryRes['Email'] : $email;
 
     // Update the specified contact record with any field passed
     if ($updateContact = $conn->prepare("UPDATE Contacts SET FirstName=?,LastName=?,Phone=?,Email=? WHERE ID=?"))
