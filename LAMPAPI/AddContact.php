@@ -7,8 +7,6 @@
     // Email: varchar(50)
     // Cookie: the currently assigned authentication cookie of the client
 
-    // Ensure that the exactly specified contact does not already exist
-
     include "DBConnect.php";
     include "ResponseLib.php";
 
