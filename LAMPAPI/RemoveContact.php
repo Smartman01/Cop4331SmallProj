@@ -14,4 +14,51 @@
     {
         return returnWrongRequestMethod();
     }
+
+    // Ensure that the necessary data has been passed
+    // At least one contact field must be provided, and auth must always be given
+    $requestBody = json_decode(file_get_contents('php://input'));
+
+    $contactID = $requestBody->ID;
+    $auth = $requestBody->auth;
+
+    if (empty($auth))
+    {
+        return returnError($responseObj, "Error: Missing authentication.");
+    }
+    else if (empty($contactID))
+    {
+        return returnError($responseObj, "Error: ID of the contact to be removed must be provided.");
+    }
+
+    // Create the response object used to reply in JSON
+    $responseObj = new stdClass();
+    $responseObj->status = -1;
+
+    // Check if the user is authenticated to perform this action
+    $userID = isAuthenticated($auth, $conn);
+    if ($userID == -1)
+    {
+        return returnError($responseObj, "Error: There was a failure to authenticate the user.", HTTP_INTERNAL_ERROR);
+    }
+
+    // Ensure that the target contact record exists and belongs to the user
+    $queryRes = "";
+    if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (ID, UserID) IN ((?,?))"))
+    {
+        $getContact->bind_param("ii", $contactID, $userID);
+        $getContact->execute();
+        $getContact->bind_result($queryRes);
+        $getContact->fetch();
+        $getContact->close();
+    }
+    else
+    {
+        return returnError($responseObj, "Error: Server failed to check whether contact record exists.", HTTP_INTERNAL_ERROR);
+    }
+
+    if (empty($queryRes))
+    {
+        return returnError($responseObj, "Error: The specified contact ID either does not exist or does not belong to this user.");
+    }
 ?>
