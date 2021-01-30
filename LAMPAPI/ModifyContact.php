@@ -48,4 +48,19 @@
     {
         return returnError($responseObj, "Error: There was a failure to authenticate the user.", HTTP_INTERNAL_ERROR);
     }
+
+    // Ensure that the target contact record exists and belongs to the user
+    $queryRes = "";
+    if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (ID, UserID) IN ((?,?))"))
+    {
+        $getContact->bind_param("ii", $contactID, $userID);
+        $getContact->execute();
+        $getContact->bind_result($queryRes);
+        $getContact->fetch();
+        $getContact->close();
+    }
+    else
+    {
+        return returnError($responseObj, "Error: Server failed to check whether contact record exists.", HTTP_INTERNAL_ERROR);
+    }
 ?>
