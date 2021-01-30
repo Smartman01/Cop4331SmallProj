@@ -98,7 +98,7 @@
 
     if (!empty($contactFound))
     {
-        return returnError($responseObj, "Error: This desired updated contact already exists (id:".$contactFound.")");
+        return returnError($responseObj, "Error: This desired updated contact already exists (id:".$contactFound.").");
     }
 
     // Update the specified contact record with any field passed
