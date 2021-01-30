@@ -42,6 +42,12 @@
     $responseObj = new stdClass();
     $responseObj->status = -1;
 
+    // Truncate the input to the maximum length allowed in the database
+    $firstName = substr($firstName, 0, 50);
+    $lastName = substr($lastName, 0, 50);
+    $phone = substr($phone, 0, 50);
+    $email = substr($email, 0, 50);
+
     // Check if the user is authenticated to perform this action
     $userID = isAuthenticated($auth, $conn);
     if ($userID == -1)
@@ -63,4 +69,11 @@
     {
         return returnError($responseObj, "Error: Server failed to check whether contact record exists.", HTTP_INTERNAL_ERROR);
     }
+
+    if (empty($queryRes))
+    {
+        return returnError($responseObj, "Error: The specified contact ID either does not exist or does not belong to this user.");
+    }
+
+    // 
 ?>
