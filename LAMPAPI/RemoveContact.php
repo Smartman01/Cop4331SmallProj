@@ -61,4 +61,23 @@
     {
         return returnError($responseObj, "Error: The specified contact ID either does not exist or does not belong to this user.");
     }
+
+    // All necessary checks (exists and belongs to auth user) have been passed
+    // Delete the specified contact record
+    if ($deleteContact = $conn->prepare("DELETE FROM Contacts WHERE ID=?"))
+    {
+        $deleteContact->bind_param("i", $contactID);
+        $deleteContact->execute();
+        $deleteContact->bind_result($queryRes);
+        $deleteContact->fetch();
+        $deleteContact->close();
+    }
+    else
+    {
+        return returnError($responseObj, "Error: Server failed to delete contact record.", HTTP_INTERNAL_ERROR);
+    }
+
+    $response = "Contact successfully removed.";
+
+    return returnAsJson($responseObj, $response);
 ?>
