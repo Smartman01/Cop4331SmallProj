@@ -57,7 +57,7 @@
 
     // Ensure that the target contact record exists and belongs to the user
     $queryRes = "";
-    if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (ID, UserID) IN ((?,?))"))
+    if ($getContact = $conn->prepare("SELECT * FROM Contacts WHERE (ID, UserID) IN ((?,?))"))
     {
         $getContact->bind_param("ii", $contactID, $userID);
         $getContact->execute();
@@ -75,5 +75,30 @@
         return returnError($responseObj, "Error: The specified contact ID either does not exist or does not belong to this user.");
     }
 
-    // 
+    // Ensure that the updated contact is not a duplicate of an existing contact
+
+
+    // Update our input to never be empty (so the query is easy to form)
+    $firstName = empty($firstName) ? $queryRes->FirstName : $firstName;
+    $lastName = empty($lastName) ? $queryRes->LastName : $lastName;
+    $phone = empty($phone) ? $queryRes->Phone : $phone;
+    $email = empty($email) ? $queryRes->Email : $email;
+
+    // Update the specified contact record with any field passed
+    if ($updateContact = $conn->prepare("UPDATE Contacts SET FirstName=?,LastName=?,Phone=?,Email=? WHERE ID=?"))
+    {
+        $updateContact->bind_param("ssssi", $firstName, $lastName, $phone, $email, $contactID);
+        $updateContact->execute();
+        $updateContact->bind_result($queryRes);
+        $updateContact->fetch();
+        $updateContact->close();
+    }
+    else
+    {
+        return returnError($responseObj, "Error: Server failed to modify contact record.", HTTP_INTERNAL_ERROR);
+    }
+
+    $response = "Contact successfully updated.";
+
+    return returnAsJson($responseObj, $response);
 ?>
