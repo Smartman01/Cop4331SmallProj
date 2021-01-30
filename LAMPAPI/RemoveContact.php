@@ -7,6 +7,8 @@
     include "DBConnect.php";
     include "ResponseLib.php";
 
+    // TODO: allow batch deletion of records
+
     // Ensure that the proper request method is used
     if ($_SERVER['REQUEST_METHOD'] != "POST" && $_SERVER['REQUEST_METHOD'] != "DELETE")
     {
