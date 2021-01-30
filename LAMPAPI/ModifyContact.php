@@ -41,5 +41,11 @@
     // Create the response object used to reply in JSON
     $responseObj = new stdClass();
     $responseObj->status = -1;
-    
+
+    // Check if the user is authenticated to perform this action
+    $userID = isAuthenticated($auth, $conn);
+    if ($userID == -1)
+    {
+        return returnError($responseObj, "Error: There was a failure to authenticate the user.", HTTP_INTERNAL_ERROR);
+    }
 ?>
