@@ -20,19 +20,17 @@
         <h1>Register</h1>
         <!-- The action attribute calls CreateUser api when info is submitted -->
         <!-- This needs to be changed to call javascript function -->
-        <form onsubmit="return register()">
-            <fieldset>
-                <legend>Register</legend>
-                <label for='first_name'>First Name</label>
-                <input name='first_name' id="first_name" type="text"><br>
-                <label for='last_name'>Last Name</label>
-                <input name='last_name' id="last_name" type="text"><br>
-                <label for='username'>Username</label>
-                <input name='username' id="username" type="text" required><br>
-                <label for='password'>Password</label>
-                <input name='password' id="password" type="text" required><br><br>
-                <button type="submit">Create User</button><br>
-            </fieldset>
-        </form>
+        <fieldset>
+            <legend>Register</legend>
+            <label for='first_name'>First Name</label>
+            <input name='first_name' id="first_name" type="text"><br>
+            <label for='last_name'>Last Name</label>
+            <input name='last_name' id="last_name" type="text"><br>
+            <label for='username'>Username</label>
+            <input name='username' id="username" type="text" required><br>
+            <label for='password'>Password</label>
+            <input name='password' id="password" type="text" required><br><br>
+            <button type="submit" onclick="register()">Create User</button><br>
+        </fieldset>
     </body>
 </html>

@@ -1,7 +1,7 @@
 // Used for making post request to api
 // Posts: Add, Create, Modify, Remove
 
-const baseUrl = "https://www.contactmanager.rocks/LAMPAPI";
+const baseUrl = "https://contactmanager.rocks/LAMPAPI";
 
 const loginAPI = "/Login.php"
 const createAPI = "/CreateUser.php"
@@ -17,7 +17,7 @@ function login()
     var jsonPayload = '{"username" : "' + username + '", "password" : "' + password + '"}';
 
     var xhr = new XMLHttpRequest();
-	xhr.open("POST", baseUrl + loginAPI, false);
+	xhr.open("POST", baseUrl + loginAPI, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     try
     {
@@ -31,9 +31,11 @@ function login()
             return;
         }
 
-        saveCookie();
+        saveCookie(jsonObject.response.cookie);
 
         window.location.href = "https://www.contactmanager.rocks/html/dashboard.html";
+
+        document.co
     }
     catch (err)
     {
@@ -51,26 +53,86 @@ function register()
     var jsonPayload = '{"firstName" : "' + first + '", "lastName" : "' + last + '", "username" : "' + username + '", "password" : "' + password + '"}';
 
     var xhr = new XMLHttpRequest();
-	xhr.open("POST", baseUrl + createAPI, false);
+	xhr.open("POST", baseUrl + createAPI, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     try
     {
         xhr.send(jsonPayload);
 		
         var jsonObject = JSON.parse( xhr.responseText );
-        
-        console.log(jsonObject);
+
+        alert("Account has been created you may login now.");
+
+        window.location.href = "https://www.contactmanager.rocks";
     }
     catch (err)
     {
-        console.log(err);
+        alert(err);
     }
 }
 
-function saveCookie(first, last, id)
+function add()
+{
+    // let firstName = document.getElementById("firstName").value;
+    // let lastName = document.getElementById("lastName").value;
+    // let phone = document.getElementById("phone").value;
+    // let email = document.getElementById("email").value;
+
+    // let auth = "";
+
+    // console.log(document.cookie);
+
+    // var jsonPayload = '{"firstName" : "' + first + '", "lastName" : "' + last + '", "phone" : "' + phone + '", "email" : "' + email + '", "auth" : "' + auth + '"}';
+
+    // var xhr = new XMLHttpRequest();
+	// xhr.open("POST", baseUrl + addContactAPI, false);
+    // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    // try
+    // {
+    //     xhr.send(jsonPayload);
+		
+    //     var jsonObject = JSON.parse( xhr.responseText );
+    // }
+    // catch (err)
+    // {
+    //     alert(err);
+    // }
+}
+
+function edit()
+{
+    // let firstName = document.getElementById("firstName").value;
+    // let lastName = document.getElementById("lastName").value;
+    // let phone = document.getElementById("phone").value;
+    // let email = document.getElementById("email").value;
+    // let contactID = "";
+        
+
+    // let auth = "";
+
+    // console.log(document.cookie);
+
+    // var jsonPayload = '{"firstName" : "' + first + '", "lastName" : "' + last + '", "phone" : "' + phone + '", "email" : "' + email + '", "auth" : "' + auth + '", contactID" : "' + contactID + '"}';
+
+    // var xhr = new XMLHttpRequest();
+	// xhr.open("POST", baseUrl + modContactAPI, false);
+    // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    // try
+    // {
+    //     xhr.send(jsonPayload);
+		
+    //     var jsonObject = JSON.parse( xhr.responseText );
+    // }
+    // catch (err)
+    // {
+    //     alert(err);
+    // }
+}
+
+function saveCookie(auth)
 {
 	var minutes = 20;
 	var date = new Date();
 	date.setTime(date.getTime()+(minutes*60*1000));	
-	document.cookie = "logged in=" + true + ";expires=" + date.toGMTString();
+	document.cookie = "auth=" + auth + ";expires=" + date.toGMTString();
 }
