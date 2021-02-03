@@ -56,7 +56,7 @@
     // Query result is empty, so no user with input username was found.
     if (empty($queryRes))
     {
-        return returnError($responseObj, "Error: User not found.");
+        return returnError($responseObj, "Error: Username or password failed to match.");
     }
 
     // Check passed password compared to hashed one retrieved
@@ -94,6 +94,6 @@
     }
     else
     {
-        return returnError($responseObh, "Error: Password did not match.");
+        return returnError($responseObh, "Error: Username or password failed to match.");
     }
 ?>
