@@ -105,6 +105,5 @@
     $responseObj->message = "Contact successfully created.";
     $responseObj->contact = new contact($queryRes, $firstName, $lastName, $phone, $email);
     
-
     return returnAsJson($responseObj);
 ?>

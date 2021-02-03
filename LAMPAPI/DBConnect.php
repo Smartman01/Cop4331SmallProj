@@ -42,5 +42,30 @@
         return $queryRes;
     }
 
-    // TODO: move the "Ensure that the target contact record exists" function to this file to reduce repeated code
+    // Check whether or not an exactly specified record exists or not
+    // Returns -1 if it does not, -2 if there was a server error, the ID of the record otherwise
+    function contactExists($firstName, $lastName, $phone, $email, $userID)
+    {
+        // Some type-mixing going on with $returnVal
+        $returnVal = "";
+        if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (FirstName, LastName, Phone, Email, UserID) IN ((?,?,?,?,?))"))
+        {
+            $getContact->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userID);
+            $getContact->execute();
+            $getContact->bind_result($returnVal);
+            $getContact->fetch();
+            $getContact->close();
+        }
+        else
+        {
+            $returnVal = -2;
+        }
+
+        if (empty($returnVal))
+        {
+            $returnVal = -1;
+        }
+
+        return $returnVal;
+    }
 ?>
