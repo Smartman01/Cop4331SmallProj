@@ -9,6 +9,25 @@
     // Set the header of any endpoints that include this to have the correct Content-Type
     header('Content-type: application/json');
 
+    // Define a contact class to form responses easier
+    class contact
+    {
+        public int $id;
+        public $firstName;
+        public $lastName;
+        public $phone;
+        public $email;
+
+        function __construct(int $id, $firstName, $lastName, $phone, $email)
+        {
+            $this->id = $id;
+            $this->firstName = $firstName;
+            $this->lastName = $lastName;
+            $this->phone = $phone;
+            $this->email = $email;
+        }
+    }
+
     function returnError($responseObj, $msg, int $responseCode = HTTP_BAD_REQUEST, int $status = -1) 
     {
         // Set the header to indicate the request failed or was invalid
