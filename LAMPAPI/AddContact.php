@@ -86,7 +86,30 @@
         return returnError($responseObj, "Error: Server failed to create contact record.", HTTP_INTERNAL_ERROR);
     }
 
-    $response = "Contact successfully created.";
+    // Get the ID of the successfully created contact
+    $queryRes = "";
+    if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (FirstName, LastName, Phone, Email, UserID) IN ((?,?,?,?,?))"))
+    {
+        $getContact->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userID);
+        $getContact->execute();
+        $getContact->bind_result($queryRes);
+        $getContact->fetch();
+        $getContact->close();
+    }
+    else
+    {
+        return returnError($responseObj, "Error: Server failed to get the ID of the contact record. The contact was successfully made.", HTTP_INTERNAL_ERROR);
+    }
 
-    return returnAsJson($responseObj, $response);
+    // Form the successful response
+    $responseObj->message = "Contact successfully created.";
+    $responseObj->contact = new stdClass();
+    $responseObj->contact->id = $queryRes;
+    $responseObj->contact->firstName = $firstName;
+    $responseObj->contact->lastName = $lastName;
+    $responseObj->contact->phone = $phone;
+    $responseObj->contact->email = $email;
+    
+
+    return returnAsJson($responseObj);
 ?>

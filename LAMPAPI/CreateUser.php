@@ -106,10 +106,13 @@
         return returnError($responseObj, "Error: Server failed to log in the user, but aaccount has been created.", HTTP_INTERNAL_ERROR);
     }
 
+    // Form the successful response
     $authCookie = $username . "$/$" . $queryRes;
 
+    $responseObj->message = "Successfully created new user.";
     $response = new stdClass();
     $response->cookie = $authCookie;
+    $responseObj->response = $response;
 
-    return returnAsJson($responseObj, $response);
+    return returnAsJson($responseObj);
 ?>

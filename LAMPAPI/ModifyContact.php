@@ -115,7 +115,14 @@
         return returnError($responseObj, "Error: Server failed to modify contact record.", HTTP_INTERNAL_ERROR);
     }
 
-    $response = "Contact successfully updated.";
+    // Form the successful response
+    $responseObj->message = "Contaact successfully updated."
+    $responseObj->contact = new stdClass();
+    $responseObj->contact->id = $contactID;
+    $responseObj->contact->firstName = $firstName;
+    $responseObj->contact->lastName = $lastName;
+    $responseObj->contact->phone = $phone;
+    $responseObj->contact->email = $email;
 
-    return returnAsJson($responseObj, $response);
+    return returnAsJson($responseObj);
 ?>

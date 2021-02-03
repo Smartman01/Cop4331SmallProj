@@ -77,7 +77,8 @@
         return returnError($responseObj, "Error: Server failed to delete contact record.", HTTP_INTERNAL_ERROR);
     }
 
-    $response = "Contact successfully removed.";
+    // Form the successful response
+    $responseObj->message = "Contact successfully removed.";
 
-    return returnAsJson($responseObj, $response);
+    return returnAsJson($responseObj);
 ?>

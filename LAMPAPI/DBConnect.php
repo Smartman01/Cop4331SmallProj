@@ -41,4 +41,6 @@
 
         return $queryRes;
     }
+
+    // TODO: move the "Ensure that the target contact record exists" function to this file to reduce repeated code
 ?>

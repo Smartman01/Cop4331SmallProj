@@ -85,10 +85,12 @@
         $authCookie = $username . "$/$" . $currentDate;
 
         // Send the data necessary to log the user in
+        $responseObj->message = "Successfully logged in user.";
         $response = new stdClass();
         $response->cookie = $authCookie;
+        $responseObj->response = $response;
 
-        return returnAsJson($responseObj, $response);
+        return returnAsJson($responseObj);
     }
     else
     {

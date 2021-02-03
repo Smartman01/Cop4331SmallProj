@@ -46,14 +46,15 @@
         return -1;
     }
 
-    function returnAsJson($responseObj, $content, int $status = 1)
+    function returnAsJson($responseObj, int $status = 1)
     {
-        $responseObj->response = $content;
         $responseObj->status = $status;
 
         echo json_encode($responseObj);
 
         return 1;
     }
+
+    // TODO: add a "Contact" struct to this file
 
 ?>
