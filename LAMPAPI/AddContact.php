@@ -103,12 +103,7 @@
 
     // Form the successful response
     $responseObj->message = "Contact successfully created.";
-    $responseObj->contact = new stdClass();
-    $responseObj->contact->id = $queryRes;
-    $responseObj->contact->firstName = $firstName;
-    $responseObj->contact->lastName = $lastName;
-    $responseObj->contact->phone = $phone;
-    $responseObj->contact->email = $email;
+    $responseObj->contact = new contact($queryRes, $firstName, $lastName, $phone, $email);
     
 
     return returnAsJson($responseObj);

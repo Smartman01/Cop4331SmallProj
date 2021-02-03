@@ -74,6 +74,4 @@
         return 1;
     }
 
-    // TODO: add a "Contact" struct to this file
-
 ?>

@@ -117,12 +117,7 @@
 
     // Form the successful response
     $responseObj->message = "Contaact successfully updated."
-    $responseObj->contact = new stdClass();
-    $responseObj->contact->id = $contactID;
-    $responseObj->contact->firstName = $firstName;
-    $responseObj->contact->lastName = $lastName;
-    $responseObj->contact->phone = $phone;
-    $responseObj->contact->email = $email;
+    $responseObj->contact = new contact($contactID, $firstName, $lastName, $phone, $email);
 
     return returnAsJson($responseObj);
 ?>
