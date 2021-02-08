@@ -17,7 +17,9 @@ function login()
     var jsonPayload = '{"username" : "' + username + '", "password" : "' + password + '"}';
 
     var xhr = new XMLHttpRequest();
-	xhr.open("POST", baseUrl + loginAPI, true);
+    // The false passed here makes it a synchronous request, which I enabled for simplicity's sake
+    // Messing with the response asynchronously requires a tiny bit of rewriting
+	xhr.open("POST", baseUrl + loginAPI, false);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     try
     {
@@ -33,9 +35,7 @@ function login()
 
         saveCookie(jsonObject.response.cookie);
 
-        window.location.href = "https://www.contactmanager.rocks/html/dashboard.html";
-
-        document.co
+        window.location.href = "https://contactmanager.rocks/html/dashboard.html";
     }
     catch (err)
     {
@@ -63,7 +63,7 @@ function register()
 
         alert("Account has been created you may login now.");
 
-        window.location.href = "https://www.contactmanager.rocks";
+        window.location.href = "https://contactmanager.rocks";
     }
     catch (err)
     {
@@ -145,7 +145,7 @@ function getCookie(cookieName)
     var decodedCookie = decodeURIComponent(document.cookie);
     var cookieArray = decodedCookie.split(';');
     for(var i = 0; i < cookieArray.length; i++) {
-      var c = ca[i];
+      var c = cookieArray[i];
       while (c.charAt(0) == ' ') {
         c = c.substring(1);
       }
