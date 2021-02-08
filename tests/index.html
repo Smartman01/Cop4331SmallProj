@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>contact manager API tests</title>
+        <meta content property="og:title">
+    	<meta content="#fa19b6" name="theme-color">
+    	<meta charset="UTF-8">
+    	<meta content="width=device-width, initial-scale=1" name="viewport">
+        <style>
+    			body {
+    				max-width: 400px;
+    				margin: 40px auto;
+    				line-height: 1;
+    				padding: 0 10px;
+    				background: #151414;
+    				color: #EFFFFF;
+    				font-family: 'Mona';
+    				font-size: 20px;
+    				overflow: hidden;
+    			}
+    			a {
+    				text-decoration: none;
+    			}
+    			h1 {
+    				font-family: sans-serif;
+    			}
+				h2 {
+					font-family: sans-serif;
+				}
+    		</style>
+    </head>
+
+    <body>
+        <h1>cool test cases</h1>
+		<aside>note: none of the test cases will work past login and registration if login fails</aside>
+        <p>&nbsp;</p>
+        <div>
+            <?php
+				include "testlib.php";
+
+				$auth = "";
+				// Begin Login.php test
+				// Testing:
+				//		1. Login returns a token on correct authentication 
+				//		2. Login returns an error on invalid username input
+				//		3. Login returns an error on invalid password input
+				//		4. Login returns an error on no input 
+				{
+					echo "<h2>Login</h2>";
+					$testName = 'Login returns a token on correct authentication';
+					$result = json_decode(sendEndpointRequest('/Login.php', 'POST', sprintf('{"username": "%s", "password": "%s"}', $Login_Config['APIUname'], $Login_Config['APIpword'])));
+					echoResults($result->status == 1, $testName);
+					if ($result->status == 1)
+					{
+						$auth = $result->response->cookie;
+					}
+
+					$testName = 'Login returns an error on invalid username input';
+					$result = sendEndpointRequest('/Login.php', 'POST', sprintf('{"username": "%s", "password": "%s"}', '-2131-258158', $Login_Config['APIpword']));
+					echoResults($result == $expectedResults['Login2'], $testName);
+
+					$testName = 'Login returns an error in invalid password input';
+					$result = sendEndpointRequest('/Login.php', 'POST', sprintf('{"username": "%s", "password": "%s"}', $Login_Config['APIUname'], '-2131-258158'));
+					echoResults($result == $expectedResults['Login3'], $testName);
+
+					$testName = 'Login returns an error on no input';
+					$result = sendEndpointRequest('/Login.php', 'POST', '');
+					echoResults($result == $expectedResults['Login4'], $testName);
+				}
+
+				// Begin CreateUser.php test
+				// Testing:
+				// 		1. Register disallows duplicate accounts
+				// Not Testing:
+				//		* Account creation, cause that would eat up database space every time this test page was used
+				{
+					echo "<h2>Registration</h2>";
+				}
+
+
+			?>
+        </div>
+    </body>
+</html>

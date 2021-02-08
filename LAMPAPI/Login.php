@@ -94,6 +94,6 @@
     }
     else
     {
-        return returnError($responseObh, "Error: Username or password failed to match.");
+        return returnError($responseObj, "Error: Username or password failed to match.");
     }
 ?>
