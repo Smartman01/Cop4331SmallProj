@@ -32,15 +32,7 @@
     $responseObj = new stdClass();
     $responseObj->status = -1;
     
-    if (empty($firstName))
-    {
-        return returnError($responseObj, "Error: Missing first name input.");
-    }
-    else if (empty($lastName))
-    {
-        return returnError($responseObj, "Error: Missing last name input.");
-    }
-    else if (empty($username))
+    if (empty($username))
     {
         return returnError($responseObj, "Error: Missing username input.");
     }
