@@ -65,9 +65,22 @@
     }
     else
     {
-
+        // TODO: potentially make assumptions about the query to make searching easier
+        // Wrap query in %'s so it can be used in the like parameter
+        $query = "%$query%";
+        if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE CONCAT(FirstName, LastName) LIKE ? OR Phone LIKE ? OR Email LIKE ? AND UserID=?"))
+        {
+            $getContacts->bind_param("sssi", $query, $query, $query, $userID);
+            $getContacts->execute();
+            $res = $getContacts->get_result();
+            while ($row = $res->fetch_assoc())
+            {
+                array_push($responseObj->contacts, new contact($row["ID"], $row["FirstName"], $row["LastName"], $row["Phone"], $row["Email"]));
+                $counter = $counter + 1;
+            }
+            $getContacts->close();
+        }
     }
-
 
     $responseObj->message = ("Retrieved " . $counter . " contact" . ($counter != 1 ? "s" : "") . ".");
     return returnAsJson($responseObj);
