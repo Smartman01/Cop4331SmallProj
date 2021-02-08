@@ -38,5 +38,37 @@
         return returnError($responseObj, "Error: There was a failure to authenticate the user.", HTTP_INTERNAL_ERROR);
     }
 
+    // Begin processing the query
+    $responseObj->contacts = array();
+    $counter = 0;
 
+    // Query is empty, so grab all contacts that belong to the user
+    $row = "";
+    if (empty($query))
+    {
+        if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE UserID=?"))
+        {
+            $getContacts->bind_param("i", $userID);
+            $getContacts->execute();
+            $res = $getContacts->get_result();
+            while ($row = $res->fetch_assoc())
+            {
+                array_push($responseObj->contacts, new contact($row["ID"], $row["FirstName"], $row["LastName"], $row["Phone"], $row["Email"]));
+                $counter = $counter + 1;
+            }
+            $getContacts->close();
+        }
+        else
+        {
+            return returnError($responseObj, "Error: Server failed to retrieve contacts.", HTTP_INTERNAL_ERROR);
+        }
+    }
+    else
+    {
+
+    }
+
+
+    $responseObj->message = ("Retrieved " . $counter . " contact" . ($counter != 1 ? "s" : "") . ".");
+    return returnAsJson($responseObj);
 ?>
