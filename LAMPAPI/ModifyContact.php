@@ -87,21 +87,12 @@
 
     // Ensure that the updated contact is not a duplicate of an existing contact
     // This is done for the sake of consistency (e.g. you cannot add a contact that is a duplicate)
-    $contactFound = "";
-    if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (FirstName, LastName, Phone, Email, UserID) IN ((?,?,?,?,?))"))
+    $contactFound = contactExists($firstName, $lastName, $phone, $email, $userID, $conn);
+    if ($contactFound == -2)
     {
-        $getContact->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userID);
-        $getContact->execute();
-        $getContact->bind_result($contactFound);
-        $getContact->fetch();
-        $getContact->close();
+        return returnError($responseObj, "Error: Server failed to check whether target contact record exists.", HTTP_INTERNAL_ERROR);
     }
-    else
-    {
-        return returnError($responseObj, "Error: Server failed to check whether contact record exists.", HTTP_INTERNAL_ERROR);
-    }
-
-    if (!empty($contactFound))
+    else if ($contactFound != -1)
     {
         return returnError($responseObj, "Error: This desired updated contact already exists (id:".$contactFound.").");
     }

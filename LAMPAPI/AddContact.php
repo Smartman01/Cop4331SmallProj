@@ -58,26 +58,19 @@
     }
 
     // Ensure that the contact record being made does not already exist and belong to auth user
-    $queryRes = "";
-    if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (FirstName, LastName, Phone, Email, UserID) IN ((?,?,?,?,?))"))
-    {
-        $getContact->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userID);
-        $getContact->execute();
-        $getContact->bind_result($queryRes);
-        $getContact->fetch();
-        $getContact->close();
-    }
-    else
+    $contactID = contactExists($firstName, $lastName, $phone, $email, $userID, $conn);
+
+    if ($contactID == -2)
     {
         return returnError($responseObj, "Error: Server failed to check whether contact record exists.", HTTP_INTERNAL_ERROR);
     }
-
-    if (!empty($queryRes))
+    else if ($contactID != -1)
     {
         return returnError($responseObj, "Error: This exact contact already exists.");
     }
 
     // All necessary checks have been passed, so create the new contact
+    $queryRes = "";
     if ($createContact = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Phone, Email, UserID) VALUES (?,?,?,?,?)"))
     {
         $createContact->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userID);

@@ -45,7 +45,7 @@
 
     // Check whether or not an exactly specified record exists or not
     // Returns -1 if it does not, -2 if there was a server error, the ID of the record otherwise
-    function contactExists($firstName, $lastName, $phone, $email, $userID)
+    function contactExists($firstName, $lastName, $phone, $email, $userID, $conn)
     {
         // Some type-mixing going on with $returnVal
         $returnVal = "";
