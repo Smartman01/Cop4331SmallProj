@@ -17,6 +17,7 @@
 
     // Ensure that $auth correlates to a real user and is valid
     // $auth consists of a username and a timestamp, which is separated by the sequence "$/$"
+    // Returns -1 if the authorization is not valid, -2 if there was a server error, or userID otherwise
     function isAuthenticated($auth, $conn)
     {
         $queryRes = "";
@@ -31,7 +32,7 @@
         }
         else
         {
-            return -1;
+            return -2;
         }
 
         if (empty($queryRes))
