@@ -87,6 +87,7 @@ function add()
     // var xhr = new XMLHttpRequest();
 	// xhr.open("POST", baseUrl + addContactAPI, false);
     // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    // xhr.setRequestHeader("AUTH", getCookie('auth'));
     // try
     // {
     //     xhr.send(jsonPayload);
@@ -117,6 +118,7 @@ function edit()
     // var xhr = new XMLHttpRequest();
 	// xhr.open("POST", baseUrl + modContactAPI, false);
     // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    // xhr.setRequestHeader("AUTH", getCookie('auth'));
     // try
     // {
     //     xhr.send(jsonPayload);
@@ -135,4 +137,21 @@ function saveCookie(auth)
 	var date = new Date();
 	date.setTime(date.getTime()+(minutes*60*1000));	
 	document.cookie = "auth=" + auth + ";expires=" + date.toGMTString();
+}
+
+function getCookie(cookieName) 
+{
+    var name = cookieName + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookieArray = decodedCookie.split(';');
+    for(var i = 0; i < cookieArray.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
 }

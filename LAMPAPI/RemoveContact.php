@@ -20,7 +20,8 @@
     $requestBody = json_decode(file_get_contents('php://input'));
 
     $contactID = $requestBody->ID;
-    $auth = $requestBody->auth;
+
+    $auth = $auth_header;
 
     if (empty($auth))
     {

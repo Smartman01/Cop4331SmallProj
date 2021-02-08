@@ -9,6 +9,9 @@
     // Set the header of any endpoints that include this to have the correct Content-Type
     header('Content-type: application/json');
 
+    // Obtain the current auth header if it exists
+    $auth_header = $_SERVER['HTTP_AUTH'];
+
     // Define a contact class to form responses easier
     class contact
     {
@@ -54,7 +57,7 @@
 
     function returnWrongRequestMethod()
     {
-        header("HTTP/1.1 400 Bad Request");
+        header("HTTP/1.1 405 Method Not Allowed");
 
         $response = new stdClass();
         $response->status = -1;

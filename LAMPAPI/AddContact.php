@@ -24,7 +24,8 @@
     $lastName = $requestBody->lastName;
     $phone = $requestBody->phone;
     $email = $requestBody->email;
-    $auth = $requestBody->auth;
+
+    $auth = $auth_header;
 
     if (empty($auth))
     {

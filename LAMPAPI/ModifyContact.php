@@ -23,7 +23,8 @@
     $phone = $requestBody->phone;
     $email = $requestBody->email;
     $contactID = $requestBody->ID;
-    $auth = $requestBody->auth;
+
+    $auth = $auth_header;
 
     if (empty($auth))
     {
