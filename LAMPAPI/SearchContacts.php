@@ -13,4 +13,17 @@
     {
         return returnWrongRequestMethod();
     }
+
+    // Ensure that the necessary data has been passed
+    // In this case, query can be empty, signaling to return all contacts belonging to a user
+    $query = $_GET['query'];
+    $auth = $auth_header;
+
+    if (empty($auth))
+    {
+        return returnError($responseObj, "Error: Missing authentication.");
+    }
+
+    
+
 ?>
