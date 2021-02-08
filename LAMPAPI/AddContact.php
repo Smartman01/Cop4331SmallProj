@@ -50,7 +50,7 @@
     $userID = isAuthenticated($auth, $conn);
     if ($userID == -1)
     {
-        return returnError($responseObj, "Error: There passed authentication token is invalid.");
+        return returnError($responseObj, "Error: The passed authentication token is invalid.");
     } 
     else if ($userID == -2)
     {
