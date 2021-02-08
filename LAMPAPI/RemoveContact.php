@@ -19,7 +19,7 @@
     // At least one contact field must be provided, and auth must always be given
     $requestBody = json_decode(file_get_contents('php://input'));
 
-    $contactID = $requestBody->ID;
+    $contactID = $requestBody->id;
 
     $auth = $auth_header;
 

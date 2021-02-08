@@ -22,7 +22,7 @@
     $lastName = $requestBody->lastName;
     $phone = $requestBody->phone;
     $email = $requestBody->email;
-    $contactID = $requestBody->ID;
+    $contactID = $requestBody->id;
 
     $auth = $auth_header;
 
