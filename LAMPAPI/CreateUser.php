@@ -95,7 +95,7 @@
     }
     else
     {
-        return returnError($responseObj, "Error: Server failed to log in the user, but aaccount has been created.", HTTP_INTERNAL_ERROR);
+        return returnError($responseObj, "Error: Server failed to log in the user, but account has been created.", HTTP_INTERNAL_ERROR);
     }
 
     // Form the successful response
