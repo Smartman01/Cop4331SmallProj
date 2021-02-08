@@ -45,6 +45,15 @@
         "Login2" => '{"status":-1,"message":"Error: Username or password failed to match."}',
         "Login3" => '{"status":-1,"message":"Error: Username or password failed to match."}',
         "Login4" => '{"status":-1,"message":"Error: Missing username input."}',
+
+        "Register1" => '{"status":-1,"message":"Error: Username already in use."}',
+        "Register2" => '{"status":-1,"message":"Error: Missing username input."}',
+        "Register3" => '{"status":-1,"message":"Error: Missing password input."}',
+
+        "Add1" => '{"status":-1,"message":"Error: Missing authentication."}',
+        "Add2" => '{"status":-1,"message":"Error: The passed authentication token is invalid."}',
+        "Add3" => '{"status":-1,"message":"Error: This exact contact already exists."}',
+        "Add4" => '{"status":-1,"message":"Error: At least one input must be provided."}',
     ];
 
 ?>

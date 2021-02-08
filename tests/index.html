@@ -25,7 +25,11 @@
     				font-family: sans-serif;
     			}
 				h2 {
+					color: #87cece;
 					font-family: sans-serif;
+				}
+				aside {
+					color: #f3f3c7;
 				}
     		</style>
     </head>
@@ -46,7 +50,10 @@
 				//		3. Login returns an error on invalid password input
 				//		4. Login returns an error on no input 
 				{
+					$time = round(microtime(true) * 1000);
+
 					echo "<h2>Login</h2>";
+
 					$testName = 'Login returns a token on correct authentication';
 					$result = json_decode(sendEndpointRequest('/Login.php', 'POST', sprintf('{"username": "%s", "password": "%s"}', $Login_Config['APIUname'], $Login_Config['APIpword'])));
 					echoResults($result->status == 1, $testName);
@@ -66,15 +73,68 @@
 					$testName = 'Login returns an error on no input';
 					$result = sendEndpointRequest('/Login.php', 'POST', '');
 					echoResults($result == $expectedResults['Login4'], $testName);
+					
+					// Show how long it took to test this endpoint
+					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
 				}
 
 				// Begin CreateUser.php test
 				// Testing:
-				// 		1. Register disallows duplicate accounts
+				// 		1. Disallows duplicate accounts
+				//		2. Not passing a username
+				//		3. Not passing a password
 				// Not Testing:
-				//		* Account creation, cause that would eat up database space every time this test page was used
+				//		* Actual account creation, cause that would eat up database space every time this test page was used
 				{
+					$time = round(microtime(true) * 1000);
+
 					echo "<h2>Registration</h2>";
+
+					$testName = 'Register disallows duplicate account creation';
+					$result = sendEndpointRequest('/CreateUser.php', 'POST', sprintf('{"username": "%s", "password": "%s", "firstName": "Test", "lastName": "Test"}', $Login_Config['APIUname'], $Login_Config['APIpword']));
+					echoResults($result == $expectedResults['Register1'], $testName);
+
+					$testName = 'Register disallows account creation with no username';
+					$result = sendEndpointRequest('/CreateUser.php', 'POST', sprintf('{"username": "%s", "password": "%s", "firstName": "Test", "lastName": "Test"}', '', $Login_Config['APIpword']));
+					echoResults($result == $expectedResults['Register2'], $testName);
+
+					$testName = 'Register disallows account creation with no password';
+					$result = sendEndpointRequest('/CreateUser.php', 'POST', sprintf('{"username": "%s", "password": "%s", "firstName": "Test", "lastName": "Test"}', $Login_Config['APIUname'], ''));
+					echoResults($result == $expectedResults['Register3'], $testName);
+
+					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
+				}
+
+				// Begin AddContact.php test
+				// Testing:
+				// 		1. Adding a contact with no auth token
+				//		2. Adding a contact with an invalid auth token
+				// 		3. Adding a duplicate contact
+				//		4. Adding a contact but passing no parameters
+				// Not Testing:
+				//		* Actual contact creation, cause that would eat up database space every time this test page was used
+				{
+					$time = round(microtime(true) * 1000);
+
+					echo "<h2>Adding Contacts</h2>";
+
+					$testName = 'Disallows adding a contact if no authorization';
+					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}');
+					echoResults($result == $expectedResults['Add1'], $testName);
+
+					$testName = 'Disallows adding a contact if invalid authorization';
+					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}', 'wrongAuth');
+					echoResults($result == $expectedResults['Add2'], $testName);
+
+					$testName = 'Disallows adding a duplicate contact';
+					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}', $auth);
+					echoResults($result == $expectedResults['Add3'], $testName);
+
+					$testName = 'Disallows adding a contact with no parameters';
+					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "", "lastName": "", "phone": "", "email": ""}', $auth);
+					echoResults($result == $expectedResults['Add4'], $testName);
+
+					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
 				}
 
 
