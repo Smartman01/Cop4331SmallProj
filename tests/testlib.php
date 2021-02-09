@@ -15,7 +15,7 @@
             $options = array(
                 'http' => array(
                     'method' => 'POST',
-                    'header' => 'Content-type: application/json\r\n' . 'Accept: application/json\r\n',
+                    'header' => "Content-type: application/json\r\n" . "Accept: application/json\r\n" . (!empty($auth) ? "Auth: " . $auth . "\r\n" : ''),
                     'content' => $request,
                     'ignore_errors' => true
                 )
