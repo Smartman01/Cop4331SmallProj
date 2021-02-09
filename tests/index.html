@@ -42,6 +42,7 @@
 				include "testlib.php";
 
 				$auth = "";
+				$contactID = -1;
 				// Begin Login.php test
 				// Testing:
 				//		1. Login returns a token on correct authentication 
@@ -110,12 +111,12 @@
 				//		2. Adding a contact with an invalid auth token
 				// 		3. Adding a duplicate contact
 				//		4. Adding a contact but passing no parameters
-				// Not Testing:
-				//		* Actual contact creation, cause that would eat up database space every time this test page was used
+				//		5. Adding a contact properly
 				{
 					$time = round(microtime(true) * 1000);
 
 					echo "<h2>Adding Contacts</h2>";
+					echo "<aside>testing deletion and modification will hinge on the success of these tests</aside>";
 
 					$testName = 'Disallows adding a contact if no authorization';
 					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}');
@@ -125,16 +126,77 @@
 					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}', 'wrongAuth');
 					echoResults($result == $expectedResults['Add2'], $testName);
 
-					$testName = 'Disallows adding a duplicate contact';
-					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}', $auth);
-					echoResults($result == $expectedResults['Add3'], $testName);
-
 					$testName = 'Disallows adding a contact with no parameters';
 					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "", "lastName": "", "phone": "", "email": ""}', $auth);
 					echoResults($result == $expectedResults['Add4'], $testName);
 
+					$testName = 'Allows adding a contact with proper parameters';
+					$result = json_decode(sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}', $auth));
+					echoResults($result->status == 1, $testName);
+					$contactID = $result->contact->id;
+
+					$testName = 'Disallows adding a duplicate contact';
+					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}', $auth);
+					echoResults($result == $expectedResults['Add3'], $testName);
+
 					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
 				}
+
+				// Begin ModifyContact.php
+				// Testing:
+				// 		1. Modifying a contact with no auth token
+				// 		2. Modifying a contact with an invalid auth token
+				//		3. Modifying a contact to a new unique contact
+				//		4. Modifying a contact to a duplicate contact
+				//		5. Modifying a contact with a field not filled out
+				//		6. Modifying a contact with no fields filled
+				//		7. Modifying a contact with no id passed
+				// 		8. Modifying a contact that belongs to another user
+				//		9. Modifying a contact that does not exist
+				{
+					$time = round(microtime(true) * 1000);
+
+					echo "<h2>Modifying Contacts</h2>";
+
+					$testName = 'Disallows modifying a contact if no authorization';
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $contactID));
+					echoResults($result == $expectedResults['Modify1'], $testName);
+
+					$testName = 'Disallows modifying a contact if invalid authorization';
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $contactID), 'wrongAuth');
+					echoResults($result == $expectedResults['Modify2'], $testName);
+
+					$testName = 'Properly modifies a contact with complete fields';
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $contactID), $auth);
+					echoResults($result == sprintf($expectedResults['Modify3'], $contactID), $testName);
+
+					$testName = 'Disallows modifying a contact if the target contact already exists';
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $contactID), $auth);
+					echoResults($result == sprintf($expectedResults['Modify4'], $contactID), $testName);
+
+					$testName = 'Properly modifies a contact with missing fields';
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Tester", "phone": "Testy", "email": "Tester"}', $contactID), $auth);
+					echoResults($result == $expectedResults['Modify5'], $testName);
+
+					$testName = 'Disallows modifying a contact if there are no fields passed';
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d}', $contactID), $auth);
+					echoResults($result == $expectedResults['Modify6'], $testName);
+
+					$testName = 'Disallows modifying a contact if contact ID is provided';
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', '{"firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $auth);
+					echoResults($result == $expectedResults['Modify7'], $testName);
+
+					$testName = 'Properly modifies a contact that does not belong to the authorized user';
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Tester", "phone": "Testy", "email": "Tester"}', 11), $auth);
+					echoResults($result == $expectedResults['Modify8'], $testName);
+
+					$testName = 'Properly modifies a contact that does not exist';
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Tester", "phone": "Testy", "email": "Tester"}', -1), $auth);
+					echoResults($result == $expectedResults['Modify9'], $testName);
+
+					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
+				}
+
 
 
 			?>

@@ -23,6 +23,9 @@
 
     $auth = $auth_header;
 
+    $responseObj = new stdClass();
+    $responseObj->status = -1;
+
     if (empty($auth))
     {
         return returnError($responseObj, "Error: Missing authentication.");
@@ -31,10 +34,6 @@
     {
         return returnError($responseObj, "Error: ID of the contact to be removed must be provided.");
     }
-
-    // Create the response object used to reply in JSON
-    $responseObj = new stdClass();
-    $responseObj->status = -1;
 
     // Check if the user is authenticated to perform this action
     $userID = isAuthenticated($auth, $conn);

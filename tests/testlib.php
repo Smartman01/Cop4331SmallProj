@@ -54,6 +54,18 @@
         "Add2" => '{"status":-1,"message":"Error: The passed authentication token is invalid."}',
         "Add3" => '{"status":-1,"message":"Error: This exact contact already exists."}',
         "Add4" => '{"status":-1,"message":"Error: At least one input must be provided."}',
+        "Add5" => '{"status":1,"message":"Contact successfully created.","contact":{"id":%d,"firstName":"Test","lastName":"Test","phone":"Test","email":"Test"}}',
+
+        // The expected responses tend to get lengthy from here on
+        "Modify1" => '{"status":-1,"message":"Error: Missing authentication."}',
+        "Modify2" => '{"status":-1,"message":"Error: The passed authentication token is invalid."}',
+        "Modify3" => '{"status":1,"message":"Contact successfully updated.","contact":{"id":%d,"firstName":"Testy","lastName":"Testy","phone":"Testy","email":"Testy"}}',
+        "Modify4" => '{"status":-1,"message":"Error: This desired updated contact already exists (id:%d)"}',
+        "Modify5" => '{"status":1,"message":"Contact successfully updated.","contact":{"id":%d,"firstName":"Tester","lastName":"Testy","phone":"Testy","email":"Tester"}}',
+        "Modify6" => '{"status":-1,"message":"Error: At least one modification must be provided."}',
+        "Modify7" => '{"status":-1,"message":"Error: ID of the contact to be modified must be provided."}',
+        "Modify8" => '{"status":-1,"message":"Error: The specified contact ID either does not exist or does not belong to this user."}',
+        "Modify9" => '{"status":-1,"message":"Error: The specified contact ID either does not exist or does not belong to this user."}',
     ];
 
 ?>

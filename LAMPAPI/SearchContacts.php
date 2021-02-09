@@ -19,13 +19,13 @@
     $query = $_GET['query'];
     $auth = $auth_header;
 
+    $responseObj = new stdClass();
+    $responseObj->status = -1;
+
     if (empty($auth))
     {
         return returnError($responseObj, "Error: Missing authentication.");
     }
-
-    $responseObj = new stdClass();
-    $responseObj->status = -1;
 
     // Authenticate the user and get their ID if possible
     $userID = isAuthenticated($auth, $conn);

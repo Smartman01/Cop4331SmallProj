@@ -26,6 +26,9 @@
 
     $auth = $auth_header;
 
+    $responseObj = new stdClass();
+    $responseObj->status = -1;
+
     if (empty($auth))
     {
         return returnError($responseObj, "Error: Missing authentication.");
@@ -38,10 +41,6 @@
     {
         return returnError($responseObj, "Error: At least one modification must be provided.");
     }
-
-    // Create the response object used to reply in JSON
-    $responseObj = new stdClass();
-    $responseObj->status = -1;
 
     // Truncate the input to the maximum length allowed in the database
     $firstName = substr($firstName, 0, 50);
