@@ -210,23 +210,23 @@
 					echo "<h2>Deleting Contacts</h2>";
 
 					$testName = 'Disallows deleting a contact if no authorization';
-					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}}', $contactID));
+					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}', $contactID));
 					echoResults($result == $expectedResults['Remove1'], $testName);
 
 					$testName = 'Disallows deleting a contact if invalid authorization';
-					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}}', $contactID), 'wrongAuth');
+					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}', $contactID), 'wrongAuth');
 					echoResults($result == $expectedResults['Remove2'], $testName);
 
 					$testName = 'Disallows deleting a contact that does not belong to the user';
-					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}}', 11), $auth);
+					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}', 11), $auth);
 					echoResults($result == $expectedResults['Remove3'], $testName);
 
 					$testName = 'Disallows deleting a contact that does not exist';
-					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}}', -1), $auth);
+					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}', -1), $auth);
 					echoResults($result == $expectedResults['Remove4'], $testName);
 
 					$testName = 'Properly deletes a contact that belongs to the user';
-					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}}', $contactID), $auth);
+					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}', $contactID), $auth);
 					echoResults($result == $expectedResults['Remove5'], $testName);
 
 					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";

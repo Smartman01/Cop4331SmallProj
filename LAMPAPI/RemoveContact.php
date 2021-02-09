@@ -47,7 +47,7 @@
     }
 
     // Ensure that the target contact record exists and belongs to the user
-    $queryRes = ""
+    $queryRes = "";
     if ($getContact = $conn->prepare("SELECT ID FROM Contacts WHERE (ID, UserID) IN ((?,?))"))
     {
         $getContact->bind_param("ii", $contactID, $userID);
