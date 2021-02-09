@@ -14,7 +14,7 @@ function login()
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
-    var jsonPayload = '{"username" : "' + username + '", "password" : "' + password + '"}';
+    var jsonPayload = JSON.stringify({username: username, password: password});
 
     var xhr = new XMLHttpRequest();
     // The false passed here makes it a synchronous request, which I enabled for simplicity's sake
@@ -50,7 +50,7 @@ function register()
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
-    var jsonPayload = '{"firstName" : "' + first + '", "lastName" : "' + last + '", "username" : "' + username + '", "password" : "' + password + '"}';
+    var jsonPayload = JSON.stringify({firstName: first, lastName: last, username: username, password: password});
 
     var xhr = new XMLHttpRequest();
 	xhr.open("POST", baseUrl + createAPI, true);
@@ -67,7 +67,7 @@ function register()
     }
     catch (err)
     {
-        alert(err);
+        document.getElementById("error").innerHTML = err;
     }
 }
 
@@ -78,11 +78,7 @@ function add()
     // let phone = document.getElementById("phone").value;
     // let email = document.getElementById("email").value;
 
-    // let auth = "";
-
-    // console.log(document.cookie);
-
-    // var jsonPayload = '{"firstName" : "' + first + '", "lastName" : "' + last + '", "phone" : "' + phone + '", "email" : "' + email + '", "auth" : "' + auth + '"}';
+    // var jsonPayload = JSON.stringify({firstName: first, lastName: last, phone: phone, email: email});
 
     // var xhr = new XMLHttpRequest();
 	// xhr.open("POST", baseUrl + addContactAPI, false);
@@ -93,10 +89,12 @@ function add()
     //     xhr.send(jsonPayload);
 		
     //     var jsonObject = JSON.parse( xhr.responseText );
+
+    //     document.getElementById("Success").innerHTML = jsonObject.message;
     // }
     // catch (err)
     // {
-    //     alert(err);
+    //     document.getElementById("error").innerHTML = err;
     // }
 }
 
@@ -106,14 +104,11 @@ function edit()
     // let lastName = document.getElementById("lastName").value;
     // let phone = document.getElementById("phone").value;
     // let email = document.getElementById("email").value;
-    // let contactID = "";
-        
-
-    // let auth = "";
+    // let id = document.getElementById("selectedID").value;
 
     // console.log(document.cookie);
 
-    // var jsonPayload = '{"firstName" : "' + first + '", "lastName" : "' + last + '", "phone" : "' + phone + '", "email" : "' + email + '", "auth" : "' + auth + '", contactID" : "' + contactID + '"}';
+    // var jsonPayload = JSON.stringify({firstName: first, lastName: last, phone: phone, email: email, id: id});
 
     // var xhr = new XMLHttpRequest();
 	// xhr.open("POST", baseUrl + modContactAPI, false);
@@ -124,10 +119,80 @@ function edit()
     //     xhr.send(jsonPayload);
 		
     //     var jsonObject = JSON.parse( xhr.responseText );
+
+    //     document.getElementById("Success").innerHTML = jsonObject.message;
     // }
     // catch (err)
     // {
-    //     alert(err);
+    //     document.getElementById("error").innerHTML = err;
+    // }
+}
+
+function deleteContact()
+{
+    // let id = document.getElementById("selectedID").value;
+
+    // var jsonPayload = JSON.stringify({id: id});
+
+    // var xhr = new XMLHttpRequest();
+	// xhr.open("POST", baseUrl + modContactAPI, false);
+    // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    // xhr.setRequestHeader("AUTH", getCookie('auth'));
+    // try
+    // {
+    //     xhr.send(jsonPayload);
+		
+    //     var jsonObject = JSON.parse( xhr.responseText );
+
+    //     document.getElementById("Success").innerHTML = jsonObject.message;
+    // }
+    // catch (err)
+    // {
+    //     document.getElementById("error").innerHTML = err;
+    // }
+}
+
+function searchContact()
+{
+    // let query = document.getElementById("query").value;
+
+    // var jsonPayload = JSON.stringify({query: query});
+
+    // var list = "";
+
+    // var xhr = new XMLHttpRequest();
+	// xhr.open("POST", baseUrl + modContactAPI, false);
+    // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    // xhr.setRequestHeader("AUTH", getCookie('auth'));
+    // try
+    // {
+    //     xhr.onreadystatechange = function() 
+	// 	{
+    //         var jsonObject = JSON.parse( xhr.responseText );
+
+	// 		if (jsonObject.status == 1) 
+	// 		{
+    //             document.getElementById("Success").innerHTML = jsonObject.message;
+				
+	// 			for (var i = 0; i< jsonObject.contacts.length; i++)
+	// 			{
+    //                 let contact = `Name: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} Phone: ${jsonObject.contacts[i].phone} Email: ${jsonObject.contacts[i].email} ID: ${jsonObject.contacts[i].id}`
+	// 				list += `<p id="${jsonObject.contacts[i].id}">${contact}</p>`;
+
+	// 				if (i < jsonObject.results.length - 1)
+	// 				{
+	// 					list += "<br />\r\n";
+	// 				}
+	// 			}
+				
+	// 			document.getElementsByTagName("p")[0].innerHTML = list;
+	// 		}
+	// 	};
+	// 	xhr.send(jsonPayload);
+    // }
+    // catch (err)
+    // {
+    //     document.getElementById("error").innerHTML = err;
     // }
 }
 
