@@ -128,7 +128,7 @@ function edit()
     // }
 }
 
-function deleteContact()
+function deleteContact(id)
 {
     // let id = document.getElementById("selectedID").value;
 
@@ -177,7 +177,7 @@ function searchContact()
 	// 			for (var i = 0; i< jsonObject.contacts.length; i++)
 	// 			{
     //                 let contact = `Name: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} Phone: ${jsonObject.contacts[i].phone} Email: ${jsonObject.contacts[i].email} ID: ${jsonObject.contacts[i].id}`
-	// 				list += `<p id="${jsonObject.contacts[i].id}">${contact}</p>`;
+	// 				list += `<p id="${jsonObject.contacts[i].id}">${contact} <button type="submit" onclick="${deleteContact(jsonObject.contacts[i].id)}">Delete Contact</button></p>`;
 
 	// 				if (i < jsonObject.results.length - 1)
 	// 				{
@@ -185,7 +185,7 @@ function searchContact()
 	// 				}
 	// 			}
 				
-	// 			document.getElementsByTagName("p")[0].innerHTML = list;
+	// 			document.getElementById("searchResults").innerHTML = list;
 	// 		}
 	// 	};
 	// 	xhr.send(jsonPayload);
