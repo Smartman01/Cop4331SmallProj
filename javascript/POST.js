@@ -175,7 +175,9 @@ function searchContact()
                     for (var i = 0; i< jsonObject.contacts.length; i++)
                     {
                         let contact = `<b>Name</b>: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} <b>Phone</b>: ${jsonObject.contacts[i].phone} <b>Email</b>: ${jsonObject.contacts[i].email}`;
-                        list += `<p id="${jsonObject.contacts[i].id}">${contact} <button type="submit" onclick="deleteContact(${jsonObject.contacts[i].id})"><b>DELETE</b></button></p>\n ${addTable(jsonObject.contacts[i].id)}`;
+                        list += `<fieldset>
+                                    <legend>Add a Contact</legend>
+                                        <p id="${jsonObject.contacts[i].id}">${contact} <button type="submit" onclick="deleteContact(${jsonObject.contacts[i].id})"><b>DELETE</b></button></p>\n ${addTable(jsonObject.contacts[i].id)}`;
 
                         if (i < jsonObject.contacts.length - 1)
                         {
@@ -229,7 +231,8 @@ function addTable(id)
                 </tbody>
             </table>
             
-            <p id="success_${id}"></p>`
+            <p id="success_${id}"></p>
+            </fieldset>`
 }
 
 function saveCookie(auth)
