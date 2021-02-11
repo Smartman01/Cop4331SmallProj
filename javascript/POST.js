@@ -174,10 +174,10 @@ function searchContact()
                 {
                     for (var i = 0; i< jsonObject.contacts.length; i++)
                     {
-                        let contact = `Name: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} Phone: ${jsonObject.contacts[i].phone} Email: ${jsonObject.contacts[i].email} ID: ${jsonObject.contacts[i].id}`
-                        list += `<p id="${jsonObject.contacts[i].id}">${contact}</p> <button type="submit" onclick="${deleteContact(jsonObject.contacts[i].id)}">Delete Contact</button> \n ${addTable(jsonObject.contacts[i].id)}`;
+                        let contact = `<b>Name</b>: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} <b>Phone</b>: ${jsonObject.contacts[i].phone} <b>Email</b>: ${jsonObject.contacts[i].email}`;
+                        list += `<p id="${jsonObject.contacts[i].id}">${contact} <button type="submit" onclick="deleteContact(${jsonObject.contacts[i].id})"><b>DELETE</b></button></p>\n ${addTable(jsonObject.contacts[i].id)}`;
 
-                        if (i < jsonObject.results.length - 1)
+                        if (i < jsonObject.contacts.length - 1)
                         {
                             list += "<br />";
                         }
@@ -223,7 +223,7 @@ function addTable(id)
                             <input name="edit_email_${id}" id="edit_email_${id}" placeholder="Enter Email" type="email">
                         </th>
                         <th>
-                            <button onclick="edit(${id})"><b>ADD</b></button>
+                            <button onclick="edit(${id})"><b>EDIT</b></button>
                         </th>
                     </tr>
                 </tbody>
