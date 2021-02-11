@@ -92,6 +92,11 @@ function add()
         var jsonObject = JSON.parse( xhr.responseText );
 
         document.getElementById("add_success").innerHTML = jsonObject.message;
+
+        document.getElementById("first_name").innerHTML = "";
+        document.getElementById("last_name").innerHTML = "";
+        document.getElementById("phone").innerHTML = "";
+        document.getElementById("email").innerHTML = "";
     }
     catch (err)
     {
@@ -120,7 +125,7 @@ function edit(id)
 		
         var jsonObject = JSON.parse( xhr.responseText );
 
-        document.getElementById(`success_${id}`).innerHTML = jsonObject.message + " reload page and search again to see the edit.";
+        document.getElementById(`success_${id}`).innerHTML = jsonObject.message + " search again to see the edit applied.";
     }
     catch (err)
     {
@@ -142,7 +147,7 @@ function deleteContact(id)
 		
         var jsonObject = JSON.parse( xhr.responseText );
 
-        document.getElementById(`success_${id}`).innerHTML = jsonObject.message + " reload page to see deletion";
+        document.getElementById(`success_${id}`).innerHTML = jsonObject.message + " search again to see deletion";
     }
     catch (err)
     {
@@ -170,13 +175,17 @@ function searchContact()
 
 			if (jsonObject.status == 1) 
 			{
+                document.getElementById("query").innerHTML = "";
+
+                document.getElementById("search_success").innerHTML = jsonObject.message;
+
                 if (jsonObject.contacts.length > 0)
                 {
                     for (var i = 0; i< jsonObject.contacts.length; i++)
                     {
                         let contact = `<b>Name</b>: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} <b>Phone</b>: ${jsonObject.contacts[i].phone} <b>Email</b>: ${jsonObject.contacts[i].email}`;
                         list += `<fieldset>
-                                    <legend>Add a Contact</legend>
+                                    <legend>Contact: ${i}</legend>
                                         <p id="${jsonObject.contacts[i].id}">${contact} <button type="submit" onclick="deleteContact(${jsonObject.contacts[i].id})"><b>DELETE</b></button></p>\n ${addTable(jsonObject.contacts[i].id)}`;
 
                         if (i < jsonObject.contacts.length - 1)
