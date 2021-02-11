@@ -159,7 +159,7 @@ function searchContact()
     var list = "";
 
     var xhr = new XMLHttpRequest();
-	xhr.open("POST", baseUrl + searcnContactAPI, false);
+	xhr.open("GET", baseUrl + searcnContactAPI, false);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     xhr.setRequestHeader("AUTH", getCookie('auth'));
     try
