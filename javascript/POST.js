@@ -73,127 +73,164 @@ function register()
 
 function add()
 {
-    // let firstName = document.getElementById("firstName").value;
-    // let lastName = document.getElementById("lastName").value;
-    // let phone = document.getElementById("phone").value;
-    // let email = document.getElementById("email").value;
+    let firstName = document.getElementById("first_name").value;
+    let lastName = document.getElementById("last_name").value;
+    let phone = document.getElementById("phone").value;
+    let email = document.getElementById("email").value;
 
-    // var jsonPayload = JSON.stringify({firstName: first, lastName: last, phone: phone, email: email});
+    var jsonPayload = JSON.stringify({firstName: first, lastName: last, phone: phone, email: email});
 
-    // var xhr = new XMLHttpRequest();
-	// xhr.open("POST", baseUrl + addContactAPI, false);
-    // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    // xhr.setRequestHeader("AUTH", getCookie('auth'));
-    // try
-    // {
-    //     xhr.send(jsonPayload);
+    var xhr = new XMLHttpRequest();
+	xhr.open("POST", baseUrl + addContactAPI, false);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.setRequestHeader("AUTH", getCookie('auth'));
+    try
+    {
+        xhr.send(jsonPayload);
 		
-    //     var jsonObject = JSON.parse( xhr.responseText );
+        var jsonObject = JSON.parse( xhr.responseText );
 
-    //     document.getElementById("Success").innerHTML = jsonObject.message;
-    // }
-    // catch (err)
-    // {
-    //     document.getElementById("error").innerHTML = err;
-    // }
+        document.getElementById("add_success").innerHTML = jsonObject.message;
+    }
+    catch (err)
+    {
+        document.getElementById("add_success").innerHTML = err;
+    }
 }
 
-function edit()
+function edit(id)
 {
-    // let firstName = document.getElementById("firstName").value;
-    // let lastName = document.getElementById("lastName").value;
-    // let phone = document.getElementById("phone").value;
-    // let email = document.getElementById("email").value;
-    // let id = document.getElementById("selectedID").value;
+    let firstName = document.getElementById(`edit_first_name_${id}`).value;
+    let lastName = document.getElementById(`edit_last_name_${id}`).value;
+    let phone = document.getElementById(`edit_phone_${id}`).value;
+    let email = document.getElementById(`edit_email_${id}`).value;
 
-    // console.log(document.cookie);
+    console.log(document.cookie);
 
-    // var jsonPayload = JSON.stringify({firstName: first, lastName: last, phone: phone, email: email, id: id});
+    var jsonPayload = JSON.stringify({firstName: firstName, lastName: lastName, phone: phone, email: email, id: id});
 
-    // var xhr = new XMLHttpRequest();
-	// xhr.open("POST", baseUrl + modContactAPI, false);
-    // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    // xhr.setRequestHeader("AUTH", getCookie('auth'));
-    // try
-    // {
-    //     xhr.send(jsonPayload);
+    var xhr = new XMLHttpRequest();
+	xhr.open("POST", baseUrl + modContactAPI, false);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.setRequestHeader("AUTH", getCookie('auth'));
+    try
+    {
+        xhr.send(jsonPayload);
 		
-    //     var jsonObject = JSON.parse( xhr.responseText );
+        var jsonObject = JSON.parse( xhr.responseText );
 
-    //     document.getElementById("Success").innerHTML = jsonObject.message;
-    // }
-    // catch (err)
-    // {
-    //     document.getElementById("error").innerHTML = err;
-    // }
+        document.getElementById(`success_${id}`).innerHTML = jsonObject.message + " reload page and search again to see the edit.";
+    }
+    catch (err)
+    {
+        document.getElementById(`success_${id}`).innerHTML = err;
+    }
 }
 
 function deleteContact(id)
 {
-    // let id = document.getElementById("selectedID").value;
+    var jsonPayload = JSON.stringify({id: id});
 
-    // var jsonPayload = JSON.stringify({id: id});
-
-    // var xhr = new XMLHttpRequest();
-	// xhr.open("POST", baseUrl + modContactAPI, false);
-    // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    // xhr.setRequestHeader("AUTH", getCookie('auth'));
-    // try
-    // {
-    //     xhr.send(jsonPayload);
+    var xhr = new XMLHttpRequest();
+	xhr.open("POST", baseUrl + modContactAPI, false);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.setRequestHeader("AUTH", getCookie('auth'));
+    try
+    {
+        xhr.send(jsonPayload);
 		
-    //     var jsonObject = JSON.parse( xhr.responseText );
+        var jsonObject = JSON.parse( xhr.responseText );
 
-    //     document.getElementById("Success").innerHTML = jsonObject.message;
-    // }
-    // catch (err)
-    // {
-    //     document.getElementById("error").innerHTML = err;
-    // }
+        document.getElementById(`success_${id}`).innerHTML = jsonObject.message + " reload page to see deletion";
+    }
+    catch (err)
+    {
+        document.getElementById(`success_${id}`).innerHTML = err;
+    }
 }
 
 function searchContact()
 {
-    // let query = document.getElementById("query").value;
+    let query = document.getElementById("query").value;
 
-    // var jsonPayload = JSON.stringify({query: query});
+    var jsonPayload = JSON.stringify({query: query});
 
-    // var list = "";
+    var list = "";
 
-    // var xhr = new XMLHttpRequest();
-	// xhr.open("POST", baseUrl + modContactAPI, false);
-    // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    // xhr.setRequestHeader("AUTH", getCookie('auth'));
-    // try
-    // {
-    //     xhr.onreadystatechange = function() 
-	// 	{
-    //         var jsonObject = JSON.parse( xhr.responseText );
+    var xhr = new XMLHttpRequest();
+	xhr.open("POST", baseUrl + modContactAPI, false);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.setRequestHeader("AUTH", getCookie('auth'));
+    try
+    {
+        xhr.onreadystatechange = function() 
+		{
+            var jsonObject = JSON.parse( xhr.responseText );
 
-	// 		if (jsonObject.status == 1) 
-	// 		{
-    //             document.getElementById("Success").innerHTML = jsonObject.message;
+			if (jsonObject.status == 1) 
+			{
+                document.getElementById("Success").innerHTML = jsonObject.message;
+
+                if (jsonObject.contacts.length > 0)
+                {
+                    for (var i = 0; i< jsonObject.contacts.length; i++)
+                    {
+                        let contact = `Name: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} Phone: ${jsonObject.contacts[i].phone} Email: ${jsonObject.contacts[i].email} ID: ${jsonObject.contacts[i].id}`
+                        list += `<p id="${jsonObject.contacts[i].id}">${contact}</p> <button type="submit" onclick="${deleteContact(jsonObject.contacts[i].id)}">Delete Contact</button> \n ${addTable(jsonObject.contacts[i].id)}`;
+
+                        if (i < jsonObject.results.length - 1)
+                        {
+                            list += "<br />";
+                        }
+                    }
+                }
+                else
+                {
+                    list = "Try adding some contacts first!";
+                }
 				
-	// 			for (var i = 0; i< jsonObject.contacts.length; i++)
-	// 			{
-    //                 let contact = `Name: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} Phone: ${jsonObject.contacts[i].phone} Email: ${jsonObject.contacts[i].email} ID: ${jsonObject.contacts[i].id}`
-	// 				list += `<p id="${jsonObject.contacts[i].id}">${contact} <button type="submit" onclick="${deleteContact(jsonObject.contacts[i].id)}">Delete Contact</button></p>`;
+				document.getElementById("searchResults").innerHTML = list;
+			}
+		};
+		xhr.send(jsonPayload);
+    }
+    catch (err)
+    {
+        document.getElementById("search_success").innerHTML = err;
+    }
+}
 
-	// 				if (i < jsonObject.results.length - 1)
-	// 				{
-	// 					list += "<br />\r\n";
-	// 				}
-	// 			}
-				
-	// 			document.getElementById("searchResults").innerHTML = list;
-	// 		}
-	// 	};
-	// 	xhr.send(jsonPayload);
-    // }
-    // catch (err)
-    // {
-    //     document.getElementById("error").innerHTML = err;
-    // }
+function addTable(id)
+{
+    return `<table>
+                <tbody>
+                    <tr>
+                        <th><label for="edit_first_name_${id}">First Name</label></th>
+                        <th><label for="edit_last_name_${id}">Last Name</label></th>
+                        <th><label for="edit_phone_${id}">Phone Number</label></th>
+                        <th><label for="edit_email_${id}">Email</label></th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <input name="edit_first_name_${id}" id="edit_first_name_${id}" placeholder="Enter First Name" type="text">
+                        </th>
+                        <th>
+                            <input name="edit_last_name_${id}" id="edit_last_name_${id}" placeholder="Enter Last Name" type="text">
+                        </th>
+                        <th>
+                            <input name="edit_phone_${id}" id="edit_phone_${id}" placeholder="Enter Phone Number" type="number">
+                        </th>
+                        <th>
+                            <input name="edit_email_${id}" id="edit_email_${id}" placeholder="Enter Email" type="email">
+                        </th>
+                        <th>
+                            <button onclick="edit(${id})"><b>ADD</b></button>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p id="success_${id}"></p>`
 }
 
 function saveCookie(auth)
