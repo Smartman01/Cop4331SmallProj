@@ -170,8 +170,6 @@ function searchContact()
 
 			if (jsonObject.status == 1) 
 			{
-                document.getElementById("Success").innerHTML = jsonObject.message;
-
                 if (jsonObject.contacts.length > 0)
                 {
                     for (var i = 0; i< jsonObject.contacts.length; i++)
