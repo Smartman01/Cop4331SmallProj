@@ -93,10 +93,10 @@ function add()
 
         document.getElementById("add_success").innerHTML = jsonObject.message;
 
-        document.getElementById("first_name").innerHTML = "";
-        document.getElementById("last_name").innerHTML = "";
-        document.getElementById("phone").innerHTML = "";
-        document.getElementById("email").innerHTML = "";
+        document.getElementById("first_name").value = "";
+        document.getElementById("last_name").value = "";
+        document.getElementById("phone").value = "";
+        document.getElementById("email").value = "";
     }
     catch (err)
     {
