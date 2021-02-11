@@ -8,6 +8,7 @@ const createAPI = "/CreateUser.php"
 const addContactAPI = "/AddContact.php"
 const modContactAPI = "/ModifyContact.php"
 const removeContactAPI = "/RemoveContact.php"
+const searcnContactAPI = "/SearchContacts.php"
 
 function login() 
 {
@@ -78,7 +79,7 @@ function add()
     let phone = document.getElementById("phone").value;
     let email = document.getElementById("email").value;
 
-    var jsonPayload = JSON.stringify({firstName: first, lastName: last, phone: phone, email: email});
+    var jsonPayload = JSON.stringify({firstName: firstName, lastName: lastName, phone: phone, email: email});
 
     var xhr = new XMLHttpRequest();
 	xhr.open("POST", baseUrl + addContactAPI, false);
@@ -132,7 +133,7 @@ function deleteContact(id)
     var jsonPayload = JSON.stringify({id: id});
 
     var xhr = new XMLHttpRequest();
-	xhr.open("POST", baseUrl + modContactAPI, false);
+	xhr.open("POST", baseUrl + removeContactAPI, false);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     xhr.setRequestHeader("AUTH", getCookie('auth'));
     try
@@ -158,7 +159,7 @@ function searchContact()
     var list = "";
 
     var xhr = new XMLHttpRequest();
-	xhr.open("POST", baseUrl + modContactAPI, false);
+	xhr.open("POST", baseUrl + searcnContactAPI, false);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     xhr.setRequestHeader("AUTH", getCookie('auth'));
     try
