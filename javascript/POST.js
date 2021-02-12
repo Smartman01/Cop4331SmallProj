@@ -183,14 +183,17 @@ function searchContact()
                 {
                     for (var i = 0; i< jsonObject.contacts.length; i++)
                     {
-                        let contact = `<b>Name</b>: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} <b>Phone</b>: ${jsonObject.contacts[i].phone} <b>Email</b>: ${jsonObject.contacts[i].email}`;
-                        list += `<fieldset>
-                                    <legend>Contact: ${i}</legend>
-                                        <p id="${jsonObject.contacts[i].id}">${contact} <button type="submit" onclick="deleteContact(${jsonObject.contacts[i].id})"><b>DELETE</b></button></p>\n ${addTable(jsonObject.contacts[i].id)}`;
-
-                        if (i < jsonObject.contacts.length - 1)
+                        if (jsonObject.contacts[i].firstName.includes(query) || jsonObject.contacts[i].lastName.includes(query) || jsonObject.contacts[i].email.includes(query))
                         {
-                            list += "<br />";
+                            let contact = `<b>Name</b>: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} <b>Phone</b>: ${jsonObject.contacts[i].phone} <b>Email</b>: ${jsonObject.contacts[i].email}`;
+                            list += `<fieldset>
+                                        <legend>Contact: ${i}</legend>
+                                            <p id="${jsonObject.contacts[i].id}">${contact} <button type="submit" onclick="deleteContact(${jsonObject.contacts[i].id})"><b>DELETE</b></button></p>\n ${addTable(jsonObject.contacts[i].id)}`;
+    
+                            if (i < jsonObject.contacts.length - 1)
+                            {
+                                list += "<br />";
+                            }
                         }
                     }
                 }
