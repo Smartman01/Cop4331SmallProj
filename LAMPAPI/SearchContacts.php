@@ -76,7 +76,7 @@
         //  1: Search by name
         //  2: Search by phone
         //  3: Search by email
-        if (type == 0)
+        if ($type == 0)
         {
             if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE LOWER((CONCAT(FirstName, ' ', LastName)) LIKE ? OR Phone LIKE ? OR LOWER(Email) LIKE ?) AND UserID=?"))
             {
@@ -91,7 +91,7 @@
                 $getContacts->close();
             }
         }
-        else if (type == 1)
+        else if ($type == 1)
         {
             if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE LOWER((CONCAT(FirstName, ' ', LastName)) LIKE ? AND UserID=?"))
             {
@@ -106,7 +106,7 @@
                 $getContacts->close();
             }
         }
-        else if (type == 2)
+        else if ($type == 2)
         {
             if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE Phone LIKE ? AND UserID=?"))
             {
@@ -121,7 +121,7 @@
                 $getContacts->close();
             }
         }
-        else if (type == 3)
+        else if ($type == 3)
         {
             if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE LOWER(Email) LIKE ? AND UserID=?"))
             {
