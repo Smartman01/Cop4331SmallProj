@@ -161,7 +161,7 @@ function searchContact()
 
     var jsonPayload = JSON.stringify({query: query});
 
-    let input_type = document.getElementById("input_type").value;
+    let input_type = document.getElementById("input_type").selectedIndex;
 
     var list = "";
 
@@ -185,7 +185,7 @@ function searchContact()
                 {
                     for (var i = 0; i< jsonObject.contacts.length; i++)
                     {
-                        if (input_type === "First Name")
+                        if (input_type === 1)
                         {
                             if (jsonObject.contacts[i].firstName.includes(query))
                             {
@@ -193,7 +193,7 @@ function searchContact()
                                 list += addTable(jsonObject.contacts[i], i);
                             }
                         }
-                        else if (input_type === "Last Name")
+                        else if (input_type === 2)
                         {
                             if (jsonObject.contacts[i].lastName.includes(query))
                             {
@@ -201,7 +201,7 @@ function searchContact()
                                 list += addTable(jsonObject.contacts[i], i);
                             }
                         }
-                        else if (input_type === "Phone Number")
+                        else if (input_type === 3)
                         {
                             if (jsonObject.contacts[i].phone.includes(query))
                             {
@@ -209,7 +209,7 @@ function searchContact()
                                 list += addTable(jsonObject.contacts[i], i);
                             }
                         }
-                        else if (input_type === "Email")
+                        else if (input_type === 4)
                         {
                             if (jsonObject.contacts[i].email.includes(query))
                             {
