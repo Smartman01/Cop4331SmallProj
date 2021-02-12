@@ -68,7 +68,7 @@
         // TODO: potentially make assumptions about the query to make searching easier
         // Wrap query in %'s so it can be used in the like parameter
         $query = "%$query%";
-        if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE (CONCAT(FirstName, LastName) LIKE ? OR Phone LIKE ? OR Email LIKE ?) AND UserID=?"))
+        if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE (CONCAT(FirstName, ' ', LastName) LIKE ? OR Phone LIKE ? OR Email LIKE ?) AND UserID=?"))
         {
             $getContacts->bind_param("sssi", $query, $query, $query, $userID);
             $getContacts->execute();

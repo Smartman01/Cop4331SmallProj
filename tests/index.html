@@ -231,6 +231,20 @@
 
 					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
 				}
+
+				// Begin SearchContacts.php test
+				// Testing:
+				// 		1. Querying with no authorization
+				// 		2. Querying with invalid authorization
+				// 		3. Querying with an empty query
+				//		4. Querying with a specific string
+				//		5. Querying firstName%20lastName
+				//		6. Querying with gibberish (no results)
+				{
+					$time = round(microtime(true) * 1000);
+
+					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
+				}
 			?>
         </div>
     </body>
