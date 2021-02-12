@@ -177,7 +177,7 @@ function searchContact()
 			{
                 document.getElementById("query").innerHTML = "";
 
-                document.getElementById("search_success").innerHTML = jsonObject.message;
+                let count = 0;
 
                 if (jsonObject.contacts.length > 0)
                 {
@@ -185,6 +185,7 @@ function searchContact()
                     {
                         if (jsonObject.contacts[i].firstName.includes(query) || jsonObject.contacts[i].lastName.includes(query) || jsonObject.contacts[i].email.includes(query))
                         {
+                            count++;
                             let contact = `<b>Name</b>: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} <b>Phone</b>: ${jsonObject.contacts[i].phone} <b>Email</b>: ${jsonObject.contacts[i].email}`;
                             list += `<fieldset>
                                         <legend>Contact: ${i}</legend>
@@ -202,6 +203,7 @@ function searchContact()
                     list = "Try adding some contacts first!";
                 }
 				
+                document.getElementById("search_success").innerHTML = `Retrieved ${count} contact(s).`;
 				document.getElementById("searchResults").innerHTML = list;
 			}
 		};
