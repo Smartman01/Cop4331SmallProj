@@ -166,7 +166,7 @@ function searchContact()
     var list = "";
 
     var xhr = new XMLHttpRequest();
-	xhr.open("GET", baseUrl + searcnContactAPI, false);
+	xhr.open("GET", baseUrl + searcnContactAPI + "?query=" + query + "&type=" + input_type, false);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     xhr.setRequestHeader("AUTH", getCookie('auth'));
     try
@@ -234,7 +234,7 @@ function searchContact()
                     list = "Try adding some contacts first!";
                 }
 				
-                document.getElementById("search_success").innerHTML = `Retrieved ${count} contact(s).`;
+                document.getElementById("search_success").innerHTML = jsonObject.message;
 				document.getElementById("searchResults").innerHTML = list;
 			}
 		};

@@ -17,6 +17,7 @@
     // Ensure that the necessary data has been passed
     // In this case, query can be empty, signaling to return all contacts belonging to a user
     $query = $_GET['query'];
+    $type = $_GET['type'];
     $auth = $auth_header;
 
     $responseObj = new stdClass();
@@ -65,20 +66,76 @@
     }
     else
     {
-        // TODO: potentially make assumptions about the query to make searching easier
         // Wrap query in %'s so it can be used in the like parameter
-        $query = "%$query%";
-        if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE (CONCAT(FirstName, ' ', LastName) LIKE ? OR Phone LIKE ? OR Email LIKE ?) AND UserID=?"))
+        $query = strtolower("%$query%");
+        // Convert type to an integer so comparisons work nicely
+        $type = !empty($type) : intval($type) ? 0;
+
+        // Types:
+        //  0: No type, generic search
+        //  1: Search by name
+        //  2: Search by phone
+        //  3: Search by email
+        if (type == 0)
         {
-            $getContacts->bind_param("sssi", $query, $query, $query, $userID);
-            $getContacts->execute();
-            $res = $getContacts->get_result();
-            while ($row = $res->fetch_assoc())
+            if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE LOWER((CONCAT(FirstName, ' ', LastName)) LIKE ? OR Phone LIKE ? OR LOWER(Email) LIKE ?) AND UserID=?"))
             {
-                array_push($responseObj->contacts, new contact($row["ID"], $row["FirstName"], $row["LastName"], $row["Phone"], $row["Email"]));
-                $counter = $counter + 1;
+                $getContacts->bind_param("sssi", $query, $query, $query, $userID);
+                $getContacts->execute();
+                $res = $getContacts->get_result();
+                while ($row = $res->fetch_assoc())
+                {
+                    array_push($responseObj->contacts, new contact($row["ID"], $row["FirstName"], $row["LastName"], $row["Phone"], $row["Email"]));
+                    $counter = $counter + 1;
+                }
+                $getContacts->close();
             }
-            $getContacts->close();
+        }
+        else if (type == 1)
+        {
+            if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE Phone LIKE ? AND UserID=?"))
+            {
+                $getContacts->bind_param("si", $query, $userID);
+                $getContacts->execute();
+                $res = $getContacts->get_result();
+                while ($row = $res->fetch_assoc())
+                {
+                    array_push($responseObj->contacts, new contact($row["ID"], $row["FirstName"], $row["LastName"], $row["Phone"], $row["Email"]));
+                    $counter = $counter + 1;
+                }
+                $getContacts->close();
+            }
+        }
+        }
+        else if (type == 2)
+        {
+            if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE LOWER((CONCAT(FirstName, ' ', LastName)) LIKE ? AND UserID=?"))
+            {
+                $getContacts->bind_param("si", $query, $userID);
+                $getContacts->execute();
+                $res = $getContacts->get_result();
+                while ($row = $res->fetch_assoc())
+                {
+                    array_push($responseObj->contacts, new contact($row["ID"], $row["FirstName"], $row["LastName"], $row["Phone"], $row["Email"]));
+                    $counter = $counter + 1;
+                }
+                $getContacts->close();
+            }
+        }
+        else if (type == 3)
+        {
+            if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE LOWER(Email) LIKE ? AND UserID=?"))
+            {
+                $getContacts->bind_param("si", $query, $userID);
+                $getContacts->execute();
+                $res = $getContacts->get_result();
+                while ($row = $res->fetch_assoc())
+                {
+                    array_push($responseObj->contacts, new contact($row["ID"], $row["FirstName"], $row["LastName"], $row["Phone"], $row["Email"]));
+                    $counter = $counter + 1;
+                }
+                $getContacts->close();
+            }
         }
     }
 
