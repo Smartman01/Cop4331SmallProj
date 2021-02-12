@@ -320,47 +320,47 @@
 
 					$testName = 'Disallows querying if no authorization';
 					$query = '?query=';
-					$result = sendEndpointRequest('/RemoveContact.php', 'GET', $query);
+					$result = sendEndpointRequest('/SearchContacts.php', 'GET', $query);
 					echoResults($result == $expectedResults['Search1'], $testName, $query, $result);
 
 					$testName = 'Disallows querying if invalid authorization';
 					$query = '?query=';
-					$result = sendEndpointRequest('/RemoveContact.php', 'GET', $query, 'wrongAuth');
+					$result = sendEndpointRequest('/SearchContacts.php', 'GET', $query, 'wrongAuth');
 					echoResults($result == $expectedResults['Search2'], $testName, $query, $result);
 
 					$testName = 'Querying with an empty string returns all contacts';
 					$query = '?query=';
-					$result = sendEndpointRequest('/RemoveContact.php', 'GET', $query, $auth);
+					$result = sendEndpointRequest('/SearchContacts.php', 'GET', $query, $auth);
 					echoResults(json_decode($result)->message == $expectedResults['Search3'], $testName, $query, $result);
 
 					$testName = 'Querying with a specific string returns that contact';
 					$query = '?query=johnathan';
-					$result = sendEndpointRequest('/RemoveContact.php', 'GET', $query, $auth);
+					$result = sendEndpointRequest('/SearchContacts.php', 'GET', $query, $auth);
 					echoResults(json_decode($result)->message == $expectedResults['Search4'], $testName, $query, $result);
 
 					$testName = 'Querying a first name last name pair returns that contact';
 					$query = '?query=john%20doe';
-					$result = sendEndpointRequest('/RemoveContact.php', 'GET', $query, $auth);
+					$result = sendEndpointRequest('/SearchContacts.php', 'GET', $query, $auth);
 					echoResults(json_decode($result)->message == $expectedResults['Search5'], $testName, $query, $result);
 
 					$testName = 'Querying with random gibberish that should not exist';
 					$query = '?query=ioduay3397raaghadakldfj839a27a4892uqjdjqdfiou0-2372057-125235uopi12u350-12375826ufsj';
-					$result = sendEndpointRequest('/RemoveContact.php', 'GET', $query, $auth);
+					$result = sendEndpointRequest('/SearchContacts.php', 'GET', $query, $auth);
 					echoResults(json_decode($result)->message == $expectedResults['Search6'], $testName, $query, $result);
 
 					$testName = 'Querying only a name (type=1)';
 					$query = '?query=jane%20doe&type=1';
-					$result = sendEndpointRequest('/RemoveContact.php', 'GET', $query, $auth);
+					$result = sendEndpointRequest('/SearchContacts.php', 'GET', $query, $auth);
 					echoResults(json_decode($result)->message == $expectedResults['Search7'], $testName, $query, $result);
 
 					$testName = 'Querying only a phone number (type=2)';
 					$query = '?query=99999&type=2';
-					$result = sendEndpointRequest('/RemoveContact.php', 'GET', $query, $auth);
+					$result = sendEndpointRequest('/SearchContacts.php', 'GET', $query, $auth);
 					echoResults(json_decode($result)->message == $expectedResults['Search8'], $testName, $query, $result);
 
 					$testName = 'Querying only an email (type=3)';
 					$query = '?query=gmail&type=3';
-					$result = sendEndpointRequest('/RemoveContact.php', 'GET', $query, $auth);
+					$result = sendEndpointRequest('/SearchContacts.php', 'GET', $query, $auth);
 					echoResults(json_decode($result)->message == $expectedResults['Search9'], $testName, $query, $result);
 					
 					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
