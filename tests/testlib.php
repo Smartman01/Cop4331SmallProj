@@ -46,9 +46,9 @@
         $success = '<span style="color:green">✓ </span>';
         $failure = '<span style="color:red">✗ </span>';
         // order of variables: result symbol, name of test
-        $testResult = '<p onclick="showResults("%s","%s")">%s%s</p>';
+        $testResult = '<p onclick="showResults(\'%s\',\'%s\')">%s%s</p>';
 
-        echo sprintf($testResult, addslashes($query), addslashes($response), $result ? $success : $failure, $testName);
+        echo sprintf($testResult, str_replace('"', '\'', addslashes($query)), str_replace('"', '\'', addslashes($response)), $result ? $success : $failure, $testName);
     }
 
     // Expected outputs in string form
@@ -87,13 +87,13 @@
 
         "Search1" => '{"status":-1,"message":"Error: Missing authentication."}',
         "Search2" => '{"status":-1,"message":"Error: The passed authentication token is invalid."}',
-        "Search3" => 'Retrieved 4 contacts', // the entire response would be massive, only want the amount it found
-        "Search4" => 'Retrieved 1 contact', // Same as above also goes for all below
-        "Search5" => 'Retrieved 1 contact',
-        "Search6" => 'Retrieved 0 contacts',
-        "Search7" => 'Retrieved 1 contact',
-        "Search8" => 'Retrieved 1 contact',
-        "Search9" => 'Retrieved 2 contacts',
+        "Search3" => 'Retrieved 4 contacts.', // the entire response would be massive, only want the amount it found
+        "Search4" => 'Retrieved 1 contact.', // Same as above also goes for all below
+        "Search5" => 'Retrieved 1 contact.',
+        "Search6" => 'Retrieved 0 contacts.',
+        "Search7" => 'Retrieved 1 contact.',
+        "Search8" => 'Retrieved 1 contact.',
+        "Search9" => 'Retrieved 2 contacts.',
     ];
 
 ?>
