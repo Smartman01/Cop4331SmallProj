@@ -190,7 +190,7 @@ function searchContact()
                             if (jsonObject.contacts[i].firstName.includes(query))
                             {
                                 count++;
-                                list += addTable(jsonObject.contacts[i]);
+                                list += addTable(jsonObject.contacts[i], i);
                             }
                         }
                         else if (input_type === "Last Name")
@@ -198,7 +198,7 @@ function searchContact()
                             if (jsonObject.contacts[i].lastName.includes(query))
                             {
                                 count++;
-                                list += addTable(jsonObject.contacts[i]);
+                                list += addTable(jsonObject.contacts[i], i);
                             }
                         }
                         else if (input_type === "Phone Number")
@@ -206,7 +206,7 @@ function searchContact()
                             if (jsonObject.contacts[i].phone.includes(query))
                             {
                                 count++;
-                                list += addTable(jsonObject.contacts[i]);
+                                list += addTable(jsonObject.contacts[i], i);
                             }
                         }
                         else if (input_type === "Email")
@@ -214,13 +214,13 @@ function searchContact()
                             if (jsonObject.contacts[i].email.includes(query))
                             {
                                 count++;
-                                list += addTable(jsonObject.contacts[i]);
+                                list += addTable(jsonObject.contacts[i], i);
                             }
                         }
                         else
                         {
                             count++;
-                            list += addTable(jsonObject.contacts[i]);
+                            list += addTable(jsonObject.contacts[i], i);
                         }
 
                         if (i < jsonObject.contacts.length - 1)
@@ -246,12 +246,12 @@ function searchContact()
     }
 }
 
-function addTable(contact)
+function addTable(contact, index)
 {
     let contactInfo = `<p id="contact_${contact.id}"><b>Name</b>: ${contact.firstName} ${contact.lastName} <b>Phone</b>: ${contact.phone} <b>Email</b>: ${contact.email}</p>`;
     
     let list = `<fieldset>
-                <legend>Contact: ${i}</legend>
+                <legend>Contact: ${index}</legend>
                     <p id="${contact.id}">${contactInfo} <button type="submit" onclick="deleteContact(${contact.id})"><b>DELETE</b></button></p>\n`;
 
     list += `<table>
