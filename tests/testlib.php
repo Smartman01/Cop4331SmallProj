@@ -34,7 +34,7 @@
         $success = '<span style="color:green">✓ </span>';
         $failure = '<span style="color:red">✗ </span>';
         // order of variables: result symbol, name of test
-        $testResult = '<p onclick="showResults(\'%s\',\'%s\')">%s%s</p>';
+        $testResult = '<p onclick="showResults("%s","%s")">%s%s</p>';
 
         echo sprintf($testResult, addslashes($query), addslashes($response), $result ? $success : $failure, $testName);
     }

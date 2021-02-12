@@ -32,14 +32,13 @@
 			}
     	</style>
 		<script type="text/javascript">
-			// Code for displaying results of a query when wanted
-			
-			var resultBox = document.getElementById("results");
-			var queryBox = document.getElementById("query");
-			var responseBox = document.getElementById("response");
-
+			// basic function for displaying results of a query when wanted
 			function showResults(query, response)
 			{
+				var resultBox = document.getElementById("results");
+				var queryBox = document.getElementById("query");
+				var responseBox = document.getElementById("response");
+
 				resultBox.removeAttribute("hidden");
 				queryBox.innerHTML = query;
 				responseBox.innerHTML = response;
