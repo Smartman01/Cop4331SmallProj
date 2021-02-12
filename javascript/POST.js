@@ -161,6 +161,8 @@ function searchContact()
 
     var jsonPayload = JSON.stringify({query: query});
 
+    let input_type = document.getElementById("input_type").value;
+
     var list = "";
 
     var xhr = new XMLHttpRequest();
@@ -183,18 +185,42 @@ function searchContact()
                 {
                     for (var i = 0; i< jsonObject.contacts.length; i++)
                     {
-                        if (jsonObject.contacts[i].firstName.includes(query) || jsonObject.contacts[i].lastName.includes(query) || jsonObject.contacts[i].email.includes(query))
+                        if (input_type === "First Name")
                         {
-                            count++;
-                            let contact = `<b>Name</b>: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} <b>Phone</b>: ${jsonObject.contacts[i].phone} <b>Email</b>: ${jsonObject.contacts[i].email}`;
-                            list += `<fieldset>
-                                        <legend>Contact: ${i}</legend>
-                                            <p id="${jsonObject.contacts[i].id}">${contact} <button type="submit" onclick="deleteContact(${jsonObject.contacts[i].id})"><b>DELETE</b></button></p>\n ${addTable(jsonObject.contacts[i].id)}`;
-    
-                            if (i < jsonObject.contacts.length - 1)
+                            if (jsonObject.contacts[i].firstName.includes(query))
                             {
-                                list += "<br />";
+                                count++;
+                                list += addTable(jsonObject);
                             }
+                        }
+                        else if (input_type === "Last Name")
+                        {
+                            if (jsonObject.contacts[i].lastName.includes(query))
+                            {
+                                count++;
+                                list += addTable(jsonObject);
+                            }
+                        }
+                        else if (input_type === "Phone Number")
+                        {
+                            if (jsonObject.contacts[i].phone.includes(query))
+                            {
+                                count++;
+                                list += addTable(jsonObject);
+                            }
+                        }
+                        else
+                        {
+                            if (jsonObject.contacts[i].email.includes(query))
+                            {
+                                count++;
+                                list += addTable(jsonObject);
+                            }
+                        }
+
+                        if (i < jsonObject.contacts.length - 1)
+                        {
+                            list += "<br />";
                         }
                     }
                 }
@@ -215,38 +241,46 @@ function searchContact()
     }
 }
 
-function addTable(id)
+function addTable(jsonObject)
 {
-    return `<table>
+    let contact = `<p id="contact_${jsonObject.contacts[i].id}"><b>Name</b>: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} <b>Phone</b>: ${jsonObject.contacts[i].phone} <b>Email</b>: ${jsonObject.contacts[i].email}</p>`;
+    
+    let list = `<fieldset>
+                <legend>Contact: ${i}</legend>
+                    <p id="${jsonObject.contacts[i].id}">${contact} <button type="submit" onclick="deleteContact(${jsonObject.contacts[i].id})"><b>DELETE</b></button></p>\n`;
+
+    list += `<table>
                 <tbody>
                     <tr>
-                        <th><label for="edit_first_name_${id}">First Name</label></th>
-                        <th><label for="edit_last_name_${id}">Last Name</label></th>
-                        <th><label for="edit_phone_${id}">Phone Number</label></th>
-                        <th><label for="edit_email_${id}">Email</label></th>
+                        <th><label for="edit_first_name_${jsonObject.contacts[i].id}">First Name</label></th>
+                        <th><label for="edit_last_name_${jsonObject.contacts[i].id}">Last Name</label></th>
+                        <th><label for="edit_phone_${jsonObject.contacts[i].id}">Phone Number</label></th>
+                        <th><label for="edit_email_${jsonObject.contacts[i].id}">Email</label></th>
                     </tr>
                     <tr>
                         <th>
-                            <input name="edit_first_name_${id}" id="edit_first_name_${id}" placeholder="Enter First Name" type="text">
+                            <input name="edit_first_name_${jsonObject.contacts[i].id}" id="edit_first_name_${jsonObject.contacts[i].id}" placeholder="Enter First Name" type="text">
                         </th>
                         <th>
-                            <input name="edit_last_name_${id}" id="edit_last_name_${id}" placeholder="Enter Last Name" type="text">
+                            <input name="edit_last_name_${jsonObject.contacts[i].id}" id="edit_last_name_${jsonObject.contacts[i].id}" placeholder="Enter Last Name" type="text">
                         </th>
                         <th>
-                            <input name="edit_phone_${id}" id="edit_phone_${id}" placeholder="Enter Phone Number" type="number">
+                            <input name="edit_phone_${jsonObject.contacts[i].id}" id="edit_phone_${jsonObject.contacts[i].id}" placeholder="Enter Phone Number" type="number">
                         </th>
                         <th>
-                            <input name="edit_email_${id}" id="edit_email_${id}" placeholder="Enter Email" type="email">
+                            <input name="edit_email_${jsonObject.contacts[i].id}" id="edit_email_${jsonObject.contacts[i].id}" placeholder="Enter Email" type="email">
                         </th>
                         <th>
-                            <button onclick="edit(${id})"><b>EDIT</b></button>
+                            <button onclick="edit(${jsonObject.contacts[i].id})"><b>EDIT</b></button>
                         </th>
                     </tr>
                 </tbody>
             </table>
-            
-            <p id="success_${id}"></p>
+
+            <p id="success_${jsonObject.contacts[i].id}"></p>
             </fieldset>`
+
+    return list;
 }
 
 function saveCookie(auth)
