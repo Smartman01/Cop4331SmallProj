@@ -32,7 +32,7 @@
             );
         }
 
-        $epURL = baseURL . APIDir . $endpoint . ($method == 'GET') ? $request : '';
+        $epURL = baseURL . APIDir . $endpoint . (($method == 'GET') ? $request : '');
 
         $context = stream_context_create($options);
         $result = file_get_contents($epURL, false, $context);

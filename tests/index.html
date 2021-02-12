@@ -354,7 +354,7 @@
 					echoResults(json_decode($result)->message == $expectedResults['Search7'], $testName, $query, $result);
 
 					$testName = 'Querying only a phone number (type=2)';
-					$query = '?query=99999&type=2'
+					$query = '?query=99999&type=2';
 					$result = sendEndpointRequest('/RemoveContact.php', 'GET', $query, $auth);
 					echoResults(json_decode($result)->message == $expectedResults['Search8'], $testName, $query, $result);
 
