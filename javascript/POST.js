@@ -190,7 +190,7 @@ function searchContact()
                             if (jsonObject.contacts[i].firstName.includes(query))
                             {
                                 count++;
-                                list += addTable(jsonObject);
+                                list += addTable(jsonObject.contacts[i]);
                             }
                         }
                         else if (input_type === "Last Name")
@@ -198,7 +198,7 @@ function searchContact()
                             if (jsonObject.contacts[i].lastName.includes(query))
                             {
                                 count++;
-                                list += addTable(jsonObject);
+                                list += addTable(jsonObject.contacts[i]);
                             }
                         }
                         else if (input_type === "Phone Number")
@@ -206,16 +206,21 @@ function searchContact()
                             if (jsonObject.contacts[i].phone.includes(query))
                             {
                                 count++;
-                                list += addTable(jsonObject);
+                                list += addTable(jsonObject.contacts[i]);
                             }
                         }
-                        else
+                        else if (input_type === "Email")
                         {
                             if (jsonObject.contacts[i].email.includes(query))
                             {
                                 count++;
-                                list += addTable(jsonObject);
+                                list += addTable(jsonObject.contacts[i]);
                             }
+                        }
+                        else
+                        {
+                            count++;
+                            list += addTable(jsonObject.contacts[i]);
                         }
 
                         if (i < jsonObject.contacts.length - 1)
@@ -241,43 +246,43 @@ function searchContact()
     }
 }
 
-function addTable(jsonObject)
+function addTable(contact)
 {
-    let contact = `<p id="contact_${jsonObject.contacts[i].id}"><b>Name</b>: ${jsonObject.contacts[i].firstName} ${jsonObject.contacts[i].lastName} <b>Phone</b>: ${jsonObject.contacts[i].phone} <b>Email</b>: ${jsonObject.contacts[i].email}</p>`;
+    let contact = `<p id="contact_${contact.id}"><b>Name</b>: ${contact.firstName} ${contact.lastName} <b>Phone</b>: ${contact.phone} <b>Email</b>: ${contact.email}</p>`;
     
     let list = `<fieldset>
                 <legend>Contact: ${i}</legend>
-                    <p id="${jsonObject.contacts[i].id}">${contact} <button type="submit" onclick="deleteContact(${jsonObject.contacts[i].id})"><b>DELETE</b></button></p>\n`;
+                    <p id="${contact.id}">${contact} <button type="submit" onclick="deleteContact(${contact.id})"><b>DELETE</b></button></p>\n`;
 
     list += `<table>
                 <tbody>
                     <tr>
-                        <th><label for="edit_first_name_${jsonObject.contacts[i].id}">First Name</label></th>
-                        <th><label for="edit_last_name_${jsonObject.contacts[i].id}">Last Name</label></th>
-                        <th><label for="edit_phone_${jsonObject.contacts[i].id}">Phone Number</label></th>
-                        <th><label for="edit_email_${jsonObject.contacts[i].id}">Email</label></th>
+                        <th><label for="edit_first_name_${contact.id}">First Name</label></th>
+                        <th><label for="edit_last_name_${contact.id}">Last Name</label></th>
+                        <th><label for="edit_phone_${contact.id}">Phone Number</label></th>
+                        <th><label for="edit_email_${contact.id}">Email</label></th>
                     </tr>
                     <tr>
                         <th>
-                            <input name="edit_first_name_${jsonObject.contacts[i].id}" id="edit_first_name_${jsonObject.contacts[i].id}" placeholder="Enter First Name" type="text">
+                            <input name="edit_first_name_${contact.id}" id="edit_first_name_${contact.id}" placeholder="Enter First Name" type="text">
                         </th>
                         <th>
-                            <input name="edit_last_name_${jsonObject.contacts[i].id}" id="edit_last_name_${jsonObject.contacts[i].id}" placeholder="Enter Last Name" type="text">
+                            <input name="edit_last_name_${contact.id}" id="edit_last_name_${contact.id}" placeholder="Enter Last Name" type="text">
                         </th>
                         <th>
-                            <input name="edit_phone_${jsonObject.contacts[i].id}" id="edit_phone_${jsonObject.contacts[i].id}" placeholder="Enter Phone Number" type="number">
+                            <input name="edit_phone_${contact.id}" id="edit_phone_${contact.id}" placeholder="Enter Phone Number" type="number">
                         </th>
                         <th>
-                            <input name="edit_email_${jsonObject.contacts[i].id}" id="edit_email_${jsonObject.contacts[i].id}" placeholder="Enter Email" type="email">
+                            <input name="edit_email_${contact.id}" id="edit_email_${contact.id}" placeholder="Enter Email" type="email">
                         </th>
                         <th>
-                            <button onclick="edit(${jsonObject.contacts[i].id})"><b>EDIT</b></button>
+                            <button onclick="edit(${contact.id})"><b>EDIT</b></button>
                         </th>
                     </tr>
                 </tbody>
             </table>
 
-            <p id="success_${jsonObject.contacts[i].id}"></p>
+            <p id="success_${contact.id}"></p>
             </fieldset>`
 
     return list;
