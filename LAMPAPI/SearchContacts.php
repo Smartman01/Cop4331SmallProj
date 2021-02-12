@@ -69,7 +69,7 @@
         // Wrap query in %'s so it can be used in the like parameter
         $query = strtolower("%$query%");
         // Convert type to an integer so comparisons work nicely
-        $type = !empty($type) : intval($type) ? 0;
+        $type = !empty($type) ? intval($type) : 0;
 
         // Types:
         //  0: No type, generic search
@@ -93,7 +93,7 @@
         }
         else if (type == 1)
         {
-            if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE Phone LIKE ? AND UserID=?"))
+            if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE LOWER((CONCAT(FirstName, ' ', LastName)) LIKE ? AND UserID=?"))
             {
                 $getContacts->bind_param("si", $query, $userID);
                 $getContacts->execute();
@@ -106,10 +106,9 @@
                 $getContacts->close();
             }
         }
-        }
         else if (type == 2)
         {
-            if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE LOWER((CONCAT(FirstName, ' ', LastName)) LIKE ? AND UserID=?"))
+            if ($getContacts = $conn->prepare("SELECT * FROM Contacts WHERE Phone LIKE ? AND UserID=?"))
             {
                 $getContacts->bind_param("si", $query, $userID);
                 $getContacts->execute();
