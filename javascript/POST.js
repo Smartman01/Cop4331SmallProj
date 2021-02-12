@@ -185,43 +185,9 @@ function searchContact()
                 {
                     for (var i = 0; i< jsonObject.contacts.length; i++)
                     {
-                        if (input_type === 1)
-                        {
-                            if (jsonObject.contacts[i].firstName.includes(query))
-                            {
-                                count++;
-                                list += addTable(jsonObject.contacts[i], i);
-                            }
-                        }
-                        else if (input_type === 2)
-                        {
-                            if (jsonObject.contacts[i].lastName.includes(query))
-                            {
-                                count++;
-                                list += addTable(jsonObject.contacts[i], i);
-                            }
-                        }
-                        else if (input_type === 3)
-                        {
-                            if (jsonObject.contacts[i].phone.includes(query))
-                            {
-                                count++;
-                                list += addTable(jsonObject.contacts[i], i);
-                            }
-                        }
-                        else if (input_type === 4)
-                        {
-                            if (jsonObject.contacts[i].email.includes(query))
-                            {
-                                count++;
-                                list += addTable(jsonObject.contacts[i], i);
-                            }
-                        }
-                        else
-                        {
-                            count++;
-                            list += addTable(jsonObject.contacts[i], i);
-                        }
+                        
+                        count++;
+                        list += addTable(jsonObject.contacts[i], i);
 
                         if (i < jsonObject.contacts.length - 1)
                         {
