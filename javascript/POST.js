@@ -246,13 +246,13 @@ function searchContact()
     }
 }
 
-function addTable({contact})
+function addTable(contact)
 {
-    let contact = `<p id="contact_${contact.id}"><b>Name</b>: ${contact.firstName} ${contact.lastName} <b>Phone</b>: ${contact.phone} <b>Email</b>: ${contact.email}</p>`;
+    let contactInfo = `<p id="contact_${contact.id}"><b>Name</b>: ${contact.firstName} ${contact.lastName} <b>Phone</b>: ${contact.phone} <b>Email</b>: ${contact.email}</p>`;
     
     let list = `<fieldset>
                 <legend>Contact: ${i}</legend>
-                    <p id="${contact.id}">${contact} <button type="submit" onclick="deleteContact(${contact.id})"><b>DELETE</b></button></p>\n`;
+                    <p id="${contact.id}">${contactInfo} <button type="submit" onclick="deleteContact(${contact.id})"><b>DELETE</b></button></p>\n`;
 
     list += `<table>
                 <tbody>
