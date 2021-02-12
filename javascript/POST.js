@@ -246,7 +246,7 @@ function searchContact()
     }
 }
 
-function addTable(contact)
+function addTable({contact})
 {
     let contact = `<p id="contact_${contact.id}"><b>Name</b>: ${contact.firstName} ${contact.lastName} <b>Phone</b>: ${contact.phone} <b>Email</b>: ${contact.email}</p>`;
     
