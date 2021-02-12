@@ -7,33 +7,53 @@
     	<meta charset="UTF-8">
     	<meta content="width=device-width, initial-scale=1" name="viewport">
         <style>
-    			body {
-    				max-width: 400px;
-    				margin: 40px auto;
-    				line-height: 1;
-    				padding: 0 10px;
-    				background: #151414;
-    				color: #EFFFFF;
-    				font-family: 'Mona';
-    				font-size: 20px;
-    			}
-    			a {
-    				text-decoration: none;
-    			}
-    			h1 {
-    				font-family: sans-serif;
-    			}
-				h2 {
-					color: #87cece;
-					font-family: sans-serif;
-				}
-				aside {
-					color: #f3f3c7;
-				}
-    		</style>
+    		body {
+    			max-width: 400px;
+    			margin: 40px auto;
+    			line-height: 1;
+    			padding: 0 10px;
+    			background: #151414;
+    			color: #EFFFFF;
+    			font-family: 'Mona';
+    			font-size: 20px;
+    		}
+    		a {
+    			text-decoration: none;
+    		}
+    		h1 {
+    			font-family: sans-serif;
+    		}
+			h2 {
+				color: #87cece;
+				font-family: sans-serif;
+			}
+			aside {
+				color: #f3f3c7;
+			}
+    	</style>
+		<script type="text/javascript">
+			// Code for displaying results of a query when wanted
+			
+			var resultBox = document.getElementById("results");
+			var queryBox = document.getElementById("query");
+			var responseBox = document.getElementById("response");
+
+			function showResults(query, response)
+			{
+				resultBox.removeAttribute("hidden");
+				queryBox.innerHTML = query;
+				responseBox.innerHTML = response;
+			}
+		</script>
     </head>
 
     <body>
+		<div id="results" style="position:fixed;margin-left:500px;margin-top:225px" hidden>
+			<p>Sent query:</p>
+			<code id="query">lol</code>
+			<p>Server responded:</p>
+			<code id="response">lol</code>
+		</div>
         <h1>cool test cases</h1>
 		<aside>note: none of the test cases will work past login and registration if login fails</aside>
         <p>&nbsp;</p>
@@ -55,24 +75,28 @@
 					echo "<h2>Login</h2>";
 
 					$testName = 'Login returns a token on correct authentication';
-					$result = json_decode(sendEndpointRequest('/Login.php', 'POST', sprintf('{"username": "%s", "password": "%s"}', $Login_Config['APIUname'], $Login_Config['APIpword'])));
-					echoResults($result->status == 1, $testName);
+					$query = sprintf('{"username": "%s", "password": "%s"}', $Login_Config['APIUname'], $Login_Config['APIpword']);
+					$result = json_decode(sendEndpointRequest('/Login.php', 'POST', $query));
+					echoResults($result->status == 1, $testName, sprintf('{"username": "%s", "password": "XXXXX"}', $Login_Config['APIUname']), json_encode($result));
 					if ($result->status == 1)
 					{
 						$auth = $result->response->cookie;
 					}
 
 					$testName = 'Login returns an error on invalid username input';
-					$result = sendEndpointRequest('/Login.php', 'POST', sprintf('{"username": "%s", "password": "%s"}', '-2131-258158', $Login_Config['APIpword']));
-					echoResults($result == $expectedResults['Login2'], $testName);
+					$query = sprintf('{"username": "%s", "password": "%s"}', '-2131-258158', $Login_Config['APIpword']);
+					$result = sendEndpointRequest('/Login.php', 'POST', $query);
+					echoResults($result == $expectedResults['Login2'], $testName, sprintf('{"username": "%s", "password": "%s"}', '-2131-258158', 'XXXXX'), $result);
 
 					$testName = 'Login returns an error in invalid password input';
-					$result = sendEndpointRequest('/Login.php', 'POST', sprintf('{"username": "%s", "password": "%s"}', $Login_Config['APIUname'], '-2131-258158'));
-					echoResults($result == $expectedResults['Login3'], $testName);
+					$query = sprintf('{"username": "%s", "password": "%s"}', $Login_Config['APIUname'], '-2131-258158');
+					$result = sendEndpointRequest('/Login.php', 'POST', $query);
+					echoResults($result == $expectedResults['Login3'], $testName, $query, $result);
 
 					$testName = 'Login returns an error on no input';
-					$result = sendEndpointRequest('/Login.php', 'POST', '');
-					echoResults($result == $expectedResults['Login4'], $testName);
+					$query = '';
+					$result = sendEndpointRequest('/Login.php', 'POST', $query);
+					echoResults($result == $expectedResults['Login4'], $testName, $query, $result);
 					
 					// Show how long it took to test this endpoint
 					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
@@ -91,16 +115,19 @@
 					echo "<h2>Registration</h2>";
 
 					$testName = 'Register disallows duplicate account creation';
-					$result = sendEndpointRequest('/CreateUser.php', 'POST', sprintf('{"username": "%s", "password": "%s", "firstName": "Test", "lastName": "Test"}', $Login_Config['APIUname'], $Login_Config['APIpword']));
-					echoResults($result == $expectedResults['Register1'], $testName);
+					$query = sprintf('{"username": "%s", "password": "%s", "firstName": "Test", "lastName": "Test"}', $Login_Config['APIUname'], '-2131-258158');
+					$result = sendEndpointRequest('/CreateUser.php', 'POST', $query);
+					echoResults($result == $expectedResults['Register1'], $testName, $query, $result);
 
 					$testName = 'Register disallows account creation with no username';
-					$result = sendEndpointRequest('/CreateUser.php', 'POST', sprintf('{"username": "%s", "password": "%s", "firstName": "Test", "lastName": "Test"}', '', $Login_Config['APIpword']));
-					echoResults($result == $expectedResults['Register2'], $testName);
+					$query = sprintf('{"username": "%s", "password": "%s", "firstName": "Test", "lastName": "Test"}', '', '-2131-258158');
+					$result = sendEndpointRequest('/CreateUser.php', 'POST', $query);
+					echoResults($result == $expectedResults['Register2'], $testName, $query, $result);
 
 					$testName = 'Register disallows account creation with no password';
-					$result = sendEndpointRequest('/CreateUser.php', 'POST', sprintf('{"username": "%s", "password": "%s", "firstName": "Test", "lastName": "Test"}', $Login_Config['APIUname'], ''));
-					echoResults($result == $expectedResults['Register3'], $testName);
+					$query = sprintf('{"username": "%s", "password": "%s", "firstName": "Test", "lastName": "Test"}', $Login_Config['APIUname'], '');
+					$result = sendEndpointRequest('/CreateUser.php', 'POST', $query);
+					echoResults($result == $expectedResults['Register3'], $testName, $query, $result);
 
 					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
 				}
@@ -119,25 +146,30 @@
 					echo "<aside>testing deletion and modification will hinge on the success of these tests</aside>";
 
 					$testName = 'Disallows adding a contact if no authorization';
-					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}');
-					echoResults($result == $expectedResults['Add1'], $testName);
+					$query = '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}';
+					$result = sendEndpointRequest('/AddContact.php', 'POST', $query);
+					echoResults($result == $expectedResults['Add1'], $testName, $query, $result);
 
 					$testName = 'Disallows adding a contact if invalid authorization';
-					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}', 'wrongAuth');
-					echoResults($result == $expectedResults['Add2'], $testName);
+					$query = '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}';
+					$result = sendEndpointRequest('/AddContact.php', 'POST', $query, 'wrongAuth');
+					echoResults($result == $expectedResults['Add2'], $testName, $query, $result);
 
 					$testName = 'Disallows adding a contact with no parameters';
-					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "", "lastName": "", "phone": "", "email": ""}', $auth);
-					echoResults($result == $expectedResults['Add4'], $testName);
+					$query = '{"firstName": "", "lastName": "", "phone": "", "email": ""}';
+					$result = sendEndpointRequest('/AddContact.php', 'POST', $query, $auth);
+					echoResults($result == $expectedResults['Add4'], $testName, $query, $result);
 
 					$testName = 'Allows adding a contact with proper parameters';
-					$result = json_decode(sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}', $auth));
-					echoResults($result->status == 1, $testName);
+					$query = '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}';
+					$result = json_decode(sendEndpointRequest('/AddContact.php', 'POST', $query, $auth));
+					echoResults($result->status == 1, $testName, $query, json_encode($result));
 					$contactID = $result->contact->id;
 
 					$testName = 'Disallows adding a duplicate contact';
-					$result = sendEndpointRequest('/AddContact.php', 'POST', '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}', $auth);
-					echoResults($result == $expectedResults['Add3'], $testName);
+					$query = '{"firstName": "Test", "lastName": "Test", "phone": "Test", "email": "Test"}';
+					$result = sendEndpointRequest('/AddContact.php', 'POST', $query, $auth);
+					echoResults($result == $expectedResults['Add3'], $testName, $query, $result);
 
 					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
 				}
@@ -159,40 +191,49 @@
 					echo "<h2>Modifying Contacts</h2>";
 
 					$testName = 'Disallows modifying a contact if no authorization';
-					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $contactID));
-					echoResults($result == $expectedResults['Modify1'], $testName);
+					$query = sprintf('{"id": %d, "firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $contactID);
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', $query);
+					echoResults($result == $expectedResults['Modify1'], $testName, $query, $result);
 
 					$testName = 'Disallows modifying a contact if invalid authorization';
-					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $contactID), 'wrongAuth');
-					echoResults($result == $expectedResults['Modify2'], $testName);
+					$query = sprintf('{"id": %d, "firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $contactID);
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', $query, 'wrongAuth');
+					echoResults($result == $expectedResults['Modify2'], $testName, $query, $result);
 
 					$testName = 'Properly modifies a contact with complete fields';
-					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $contactID), $auth);
-					echoResults($result == sprintf($expectedResults['Modify3'], $contactID), $testName);
+					$query = sprintf('{"id": %d, "firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $contactID);
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', $query, $auth);
+					echoResults($result == sprintf($expectedResults['Modify3'], $contactID), $testName, $query, $result);
 
 					$testName = 'Disallows modifying a contact if the target contact already exists';
-					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $contactID), $auth);
-					echoResults($result == sprintf($expectedResults['Modify4'], $contactID), $testName);
+					$query = sprintf('{"id": %d, "firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $contactID);
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', $query, $auth);
+					echoResults($result == sprintf($expectedResults['Modify4'], $contactID), $testName, $query, $result);
 
 					$testName = 'Properly modifies a contact with missing fields';
-					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Tester", "phone": "Testy", "email": "Tester"}', $contactID), $auth);
-					echoResults($result == sprintf($expectedResults['Modify5'], $contactID), $testName);
+					$query = sprintf('{"id": %d, "firstName": "Tester", "phone": "Testy", "email": "Tester"}', $contactID);
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', $query, $auth);
+					echoResults($result == sprintf($expectedResults['Modify5'], $contactID), $testName, $query, $result);
 
 					$testName = 'Disallows modifying a contact if there are no fields passed';
-					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d}', $contactID), $auth);
-					echoResults($result == $expectedResults['Modify6'], $testName);
+					$query = sprintf('{"id": %d}', $contactID);
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', $query, $auth);
+					echoResults($result == $expectedResults['Modify6'], $testName, $query, $result);
 
-					$testName = 'Disallows modifying a contact if contact ID is provided';
-					$result = sendEndpointRequest('/ModifyContact.php', 'POST', '{"firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}', $auth);
-					echoResults($result == $expectedResults['Modify7'], $testName);
+					$testName = 'Disallows modifying a contact if contact ID is not provided';
+					$query = '{"firstName": "Testy", "lastName": "Testy", "phone": "Testy", "email": "Testy"}';
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', $query, $auth);
+					echoResults($result == $expectedResults['Modify7'], $testName, $query, $result);
 
 					$testName = 'Disallows modifying a contact that does not belong to the authorized user';
-					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Tester", "phone": "Testy", "email": "Tester"}', 11), $auth);
-					echoResults($result == $expectedResults['Modify8'], $testName);
+					$query = sprintf('{"id": %d, "firstName": "Tester", "phone": "Testy", "email": "Tester"}', 11);
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', $query, $auth);
+					echoResults($result == $expectedResults['Modify8'], $testName, $query, $result);
 
 					$testName = 'Disallows modifying a contact that does not exist';
-					$result = sendEndpointRequest('/ModifyContact.php', 'POST', sprintf('{"id": %d, "firstName": "Tester", "phone": "Testy", "email": "Tester"}', -1), $auth);
-					echoResults($result == $expectedResults['Modify9'], $testName);
+					$query = sprintf('{"id": %d, "firstName": "Tester", "phone": "Testy", "email": "Tester"}', -1);
+					$result = sendEndpointRequest('/ModifyContact.php', 'POST', $query, $auth);
+					echoResults($result == $expectedResults['Modify9'], $testName, $query, $result);
 
 					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
 				}
@@ -210,24 +251,29 @@
 					echo "<h2>Deleting Contacts</h2>";
 
 					$testName = 'Disallows deleting a contact if no authorization';
-					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}', $contactID));
-					echoResults($result == $expectedResults['Remove1'], $testName);
+					$query = sprintf('{"id": %d}', $contactID);
+					$result = sendEndpointRequest('/RemoveContact.php', 'POST', $query);
+					echoResults($result == $expectedResults['Remove1'], $testName, $query, $result);
 
 					$testName = 'Disallows deleting a contact if invalid authorization';
-					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}', $contactID), 'wrongAuth');
-					echoResults($result == $expectedResults['Remove2'], $testName);
+					$query = sprintf('{"id": %d}', $contactID);
+					$result = sendEndpointRequest('/RemoveContact.php', 'POST', $query, 'wrongAuth');
+					echoResults($result == $expectedResults['Remove2'], $testName, $query, $result);
 
 					$testName = 'Disallows deleting a contact that does not belong to the user';
-					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}', 11), $auth);
-					echoResults($result == $expectedResults['Remove3'], $testName);
+					$query = sprintf('{"id": %d}', 11);
+					$result = sendEndpointRequest('/RemoveContact.php', 'POST', $query, $auth);
+					echoResults($result == $expectedResults['Remove3'], $testName, $query, $result);
 
 					$testName = 'Disallows deleting a contact that does not exist';
-					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}', -1), $auth);
-					echoResults($result == $expectedResults['Remove4'], $testName);
+					$query = sprintf('{"id": %d}', -1);
+					$result = sendEndpointRequest('/RemoveContact.php', 'POST', $query, $auth);
+					echoResults($result == $expectedResults['Remove4'], $testName, $query, $result);
 
 					$testName = 'Properly deletes a contact that belongs to the user';
-					$result = sendEndpointRequest('/RemoveContact.php', 'POST', sprintf('{"id": %d}', $contactID), $auth);
-					echoResults($result == $expectedResults['Remove5'], $testName);
+					$query = sprintf('{"id": %d}', $contactID);
+					$result = sendEndpointRequest('/RemoveContact.php', 'POST', $query, $auth);
+					echoResults($result == $expectedResults['Remove5'], $testName, $query, $result);
 
 					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
 				}
@@ -239,9 +285,14 @@
 				// 		3. Querying with an empty query
 				//		4. Querying with a specific string
 				//		5. Querying firstName%20lastName
-				//		6. Querying with gibberish (no results)
+				//		6. Querying with random generated gibberish (no results)
+				// 		7. Querying type 1 (name)
+				//		8. Querying type 2 (phone)
+				//		9. Querying type 3 (email)
 				{
 					$time = round(microtime(true) * 1000);
+
+					echo "<h2>Searching Contacts</h2>";
 
 					echo "<aside>" . (round(microtime(true) * 1000) - $time) . " ms</aside>";
 				}

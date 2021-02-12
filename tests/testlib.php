@@ -28,15 +28,15 @@
         return $result;
     }
 
-    function echoResults($result, $testName)
+    function echoResults($result, $testName, $query, $response)
     {
         // html elements to format as a string
         $success = '<span style="color:green">✓ </span>';
         $failure = '<span style="color:red">✗ </span>';
         // order of variables: result symbol, name of test
-        $testResult = '<p>%s%s</p>';
+        $testResult = '<p onclick="showResults(\'%s\',\'%s\')">%s%s</p>';
 
-        echo sprintf($testResult, $result ? $success : $failure, $testName);
+        echo sprintf($testResult, addslashes($query), addslashes($response), $result ? $success : $failure, $testName);
     }
 
     // Expected outputs in string form
