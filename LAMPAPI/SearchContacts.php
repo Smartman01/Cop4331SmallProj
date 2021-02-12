@@ -136,6 +136,10 @@
                 $getContacts->close();
             }
         }
+        else
+        {
+            return returnError($responseObj, "Error: Invalid search category/type.");
+        }
     }
 
     $responseObj->message = ("Retrieved " . $counter . " contact" . ($counter != 1 ? "s" : "") . ".");

@@ -21,9 +21,21 @@
                 )
             );
         }
+        else if ($method == 'GET')
+        {
+            $options = array(
+                'http' => array(
+                    'method' => 'GET',
+                    'header' => (!empty($auth) ? "Auth: " . $auth . "\r\n" : ''),
+                    'ignore_errors' => true
+                )
+            );
+        }
+
+        $epURL = baseURL . APIDir . $endpoint . ($method == 'GET') ? $request : '';
 
         $context = stream_context_create($options);
-        $result = file_get_contents(baseURL . APIDir . $endpoint, false, $context);
+        $result = file_get_contents($epURL, false, $context);
         
         return $result;
     }
@@ -72,6 +84,16 @@
         "Remove3" => '{"status":-1,"message":"Error: The specified contact ID either does not exist or does not belong to this user."}',
         "Remove4" => '{"status":-1,"message":"Error: The specified contact ID either does not exist or does not belong to this user."}',
         "Remove5" => '{"status":1,"message":"Contact successfully removed."}',
+
+        "Search1" => '{"status":-1,"message":"Error: Missing authentication."}',
+        "Search2" => '{"status":-1,"message":"Error: The passed authentication token is invalid."}',
+        "Search3" => 'Retrieved 4 contacts', // the entire response would be massive, only want the amount it found
+        "Search4" => 'Retrieved 1 contact', // Same as above also goes for all below
+        "Search5" => 'Retrieved 1 contact',
+        "Search6" => 'Retrieved 0 contacts',
+        "Search7" => 'Retrieved 1 contact',
+        "Search8" => 'Retrieved 1 contact',
+        "Search9" => 'Retrieved 2 contacts',
     ];
 
 ?>
