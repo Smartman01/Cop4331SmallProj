@@ -32,6 +32,8 @@
 			}
     	</style>
 		<script type="text/javascript">
+			var counter = 0;
+
 			// basic function for displaying results of a query when wanted
 			function showResults(query, response)
 			{
@@ -43,6 +45,29 @@
 				queryBox.innerHTML = query;
 				responseBox.innerHTML = response;
 			}
+
+			// i am an expert at wasting time
+			function funAPIDemoTitle(element)
+			{
+				if (counter > 0)
+				{
+					return;
+				}
+				element = document.getElementsByTagName("h1")[0];
+				var interval = setInterval(function() {
+					counter++;
+
+					element.style.textShadow = (-1000 + 5*counter) + 'px' + ' 0px' + ' cyan, ' + (1000 - 5*counter) + 'px' + ' 0px' + ' magenta';
+
+					if (counter > 400)
+					{
+						clearInterval(interval);
+						element.style.textShadow = null;
+						counter = 0;
+					}
+				}, 5);
+			}
+			document.getElementsByTagName("h1")[0].onclick = funAPIDemoTitle;
 		</script>
     </head>
 
@@ -53,7 +78,7 @@
 			<p>Server responded:</p>
 			<code id="response">lol</code>
 		</div>
-        <h1>cool test cases</h1>
+        <h1>API Demo</h1>
 		<aside>note: none of the test cases will work past login and registration if login fails</aside>
         <p>&nbsp;</p>
         <div>
