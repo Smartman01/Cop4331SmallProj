@@ -8,6 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../css/dashboard.css">
         <script type="text/javascript" src="../javascript/POST.js" async defer></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
 
     <body>
@@ -19,17 +20,72 @@
         </nav>
 
         <h1>Welcome to ContactManager.rocks!</h1>
-        <p>So...</p>
         <p>
             You still decided to use the software. 
             Now it's time to ADD, EDIT, and DELETE people from your life
         </p>
 
-        <button onclick="add()"><b>ADD</b></button>
-        <button onclick="edit()"><b>EDIT</b></button>
-        <button><b>DELETE</b></button>
+        <fieldset>
+            <legend>Search</legend>
+            <table>
+                <tr>
+                    <th>
+                        <label for="searchPara">
+                            <select name='inputTypes' id="input_type" required>
+                                <option value="">Search Parameter</option>
+                                <option value='text'>First Name</option>
+                                <option value='text'>Last Name</option>
+                                <option value='number'>Phone Number</option>
+                                <option value='email'>Email</option>
+                            </select>
+                        </label>
+                    </th>
+                    <th>
+                        <!-- <form class="example" action="SearchContacts.php"> -->
+                            <input type="inputTypes" placeholder="Search for Contact..." name="search" id="query">
+                            <button type="submit" onclick="searchContact()"><i class="fa fa-search"></i></button>
+                        <!-- </form> -->
+                    </th>
+                </tr>
+            </table>
+            <p id="search_success"></p>
+        </fieldset>
+        
 
+        <fieldset>
+            <legend>Add a Contact</legend>
+            <table>
+                <tbody>
+                    <tr>
+                        <th><label for="first_name">First Name</label></th>
+                        <th><label for="last_name">Last Name</label></th>
+                        <th><label for="phone">Phone Number</label></th>
+                        <th><label for="email">Email</label></th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <input name="first_name" id="first_name" placeholder="Enter First Name" type="text">
+                        </th>
+                        <th>
+                            <input name="last_name" id="last_name" placeholder="Enter Last Name" type="text">
+                        </th>
+                        <th>
+                            <input name="phone" id="phone" placeholder="Enter Phone Number" type="number">
+                        </th>
+                        <th>
+                            <input name="email" id="email" placeholder="Enter Email" type="email">
+                        </th>
+                        <th>
+                            <button onclick="add()"><b>ADD</b></button>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
 
-        <script src="" async defer></script>
+            <p id="add_success"></p>
+        </fieldset>
+        
+
+        <p id="searchResults"></p>
     </body>
 </html>
