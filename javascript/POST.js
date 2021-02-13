@@ -228,9 +228,9 @@ function searchContact()
 function addTable(contact, index)
 {
     // The contact with info
-    let contactInfo = `<p id="contact_${contact.id}"><b>Name</b>: <p id="FN_${contact.id}">${contact.firstName}</p>`;
-    contactInfo += `<p id="LN_${contact.id}">${contact.lastName}</p> <b>Phone</b>: <p id="P_${contact.id}">${contact.phone}</p>`;
-    contactInfo += `<b>Email</b>: <p id="E_${contact.id}">${contact.email}</p></p>`;
+    let contactInfo = `<div id="contact_${contact.id}"><b>Name</b>: <i id="FN_${contact.id}">${contact.firstName}</i>`;
+    contactInfo += `<i id="LN_${contact.id}">${contact.lastName}</i> <b>Phone</b>: <i id="P_${contact.id}">${contact.phone}</i>`;
+    contactInfo += `<b>Email</b>: <i id="E_${contact.id}">${contact.email}</i></div>`;
 
     // Adds the contact and delete button
     let list = `<fieldset>
