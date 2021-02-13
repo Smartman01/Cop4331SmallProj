@@ -111,15 +111,17 @@ function add()
 
 function edit(id)
 {
+    // Gets values to be editted
     let firstName = document.getElementById(`edit_first_name_${id}`).value;
     let lastName = document.getElementById(`edit_last_name_${id}`).value;
     let phone = document.getElementById(`edit_phone_${id}`).value;
     let email = document.getElementById(`edit_email_${id}`).value;
 
-    console.log(document.cookie);
+    // console.log(document.cookie);
 
     var jsonPayload = JSON.stringify({firstName: firstName, lastName: lastName, phone: phone, email: email, id: id});
 
+    // Makes an api call to modify an existing contact
     var xhr = new XMLHttpRequest();
 	xhr.open("POST", baseUrl + modContactAPI, false);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -138,10 +140,12 @@ function edit(id)
     }
 }
 
+// Passed the id of the contact to be deleted
 function deleteContact(id)
 {
     var jsonPayload = JSON.stringify({id: id});
 
+    // Makes api call to delete
     var xhr = new XMLHttpRequest();
 	xhr.open("POST", baseUrl + removeContactAPI, false);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -170,6 +174,7 @@ function searchContact()
 
     var list = "";
 
+    // Makes an api call to search contacts
     var xhr = new XMLHttpRequest();
 	xhr.open("GET", baseUrl + searcnContactAPI + "?query=" + query + "&type=" + input_type, false);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -192,6 +197,8 @@ function searchContact()
                     {
                         
                         count++;
+
+                        // Adds contacts to a list to be displayed
                         list += addTable(jsonObject.contacts[i], i);
 
                         if (i < jsonObject.contacts.length - 1)
@@ -217,14 +224,20 @@ function searchContact()
     }
 }
 
+// Creates a tables for each contact that is returned by search
 function addTable(contact, index)
 {
-    let contactInfo = `<p id="contact_${contact.id}"><b>Name</b>: ${contact.firstName} ${contact.lastName} <b>Phone</b>: ${contact.phone} <b>Email</b>: ${contact.email}</p>`;
-    
+    // The contact with info
+    let contactInfo = `<p id="contact_${contact.id}"><b>Name</b>: <p id="FN_${contact.id}">${contact.firstName}</p>`;
+    contactInfo += `<p id="LN_${contact.id}">${contact.lastName}</p> <b>Phone</b>: <p id="P_${contact.id}">${contact.phone}</p>`;
+    contactInfo += `<b>Email</b>: <p id="E_${contact.id}">${contact.email}</p></p>`;
+
+    // Adds the contact and delete button
     let list = `<fieldset>
                 <legend>Contact: ${index}</legend>
                     <p id="${contact.id}">${contactInfo} <button type="submit" onclick="deleteContact(${contact.id})"><b>DELETE</b></button></p>\n`;
 
+    // A table of input fields to edit the contact
     list += `<table>
                 <tbody>
                     <tr>
@@ -259,6 +272,7 @@ function addTable(contact, index)
     return list;
 }
 
+// Saves the authenication to the browser's cookies
 function saveCookie(auth)
 {
 	var minutes = 20;
@@ -267,6 +281,7 @@ function saveCookie(auth)
 	document.cookie = "auth=" + auth + ";expires=" + date.toGMTString();
 }
 
+// Used to retrieves the a specific cookie such as the header
 function getCookie(cookieName) 
 {
     var name = cookieName + "=";
