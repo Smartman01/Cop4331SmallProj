@@ -22,7 +22,7 @@
         <h1>Welcome to ContactManager.rocks!</h1>
         <p>
             You still decided to use the software. 
-            Now it's time to ADD, EDIT, and DELETE people from your life
+            Now it's time to ADD, EDIT, DELETE and SEARCH people from your life. Or not.
         </p>
 
         <fieldset>
@@ -32,7 +32,6 @@
                     <th>
                         <label for="searchPara">
                             <select name='inputTypes' id="input_type" required>
-                                <option value="">Search Parameter</option>
                                 <option value='text'>First Name</option>
                                 <option value='text'>Last Name</option>
                                 <option value='number'>Phone Number</option>
@@ -41,10 +40,8 @@
                         </label>
                     </th>
                     <th>
-                        <!-- <form class="example" action="SearchContacts.php"> -->
                             <input type="inputTypes" placeholder="Search for Contact..." name="search" id="query">
                             <button type="submit" onclick="searchContact()"><i class="fa fa-search"></i></button>
-                        <!-- </form> -->
                     </th>
                 </tr>
             </table>
