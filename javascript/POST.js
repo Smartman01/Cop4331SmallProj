@@ -1,5 +1,5 @@
 // Used for making post request to api
-// Posts: Add, Create, Modify, Remove
+// Posts: Add, Create, Modify, Remove, Search
 
 const baseUrl = window.location.origin + "/LAMPAPI";
 
@@ -62,13 +62,13 @@ function register()
 		
         var jsonObject = JSON.parse( xhr.responseText );
 
-        alert("Account has been created you may login now.");
+        document.getElementById("success").innerHTML = "Account has been created you may login now.";
 
         window.location.href = window.location.origin;
     }
     catch (err)
     {
-        document.getElementById("error").innerHTML = err;
+        document.getElementById("success").innerHTML = err;
     }
 }
 
