@@ -54,7 +54,7 @@ function register()
     var jsonPayload = JSON.stringify({firstName: first, lastName: last, username: username, password: password});
 
     var xhr = new XMLHttpRequest();
-	xhr.open("POST", baseUrl + createAPI, true);
+	xhr.open("POST", baseUrl + createAPI, false);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     try
     {
@@ -62,7 +62,12 @@ function register()
 		
         var jsonObject = JSON.parse( xhr.responseText );
 
-        document.getElementById("success").innerHTML = "Account has been created you may login now.";
+        document.getElementById("success").innerHTML = jsonObject.message;
+
+        if (jsonObject.status === -1)
+        {
+            return;
+        }
 
         window.location.href = window.location.origin;
     }
