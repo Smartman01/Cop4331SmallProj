@@ -133,16 +133,16 @@ function edit(id)
         var jsonObject = JSON.parse( xhr.responseText );
 
         if (firstName != "")
-            document.getElementById(`FN_${contact.id}`).innerHTML = firstName;
+            document.getElementById(`FN_${id}`).innerHTML = firstName;
 
         if (lastName != "")
-            document.getElementById(`LN_${contact.id}`).innerHTML = lastName;
+            document.getElementById(`LN_${id}`).innerHTML = lastName;
 
         if (phone != "")
-            document.getElementById(`P_${contact.id}`).innerHTML = phone;
+            document.getElementById(`P_${id}`).innerHTML = phone;
 
         if (email != "")
-            document.getElementById(`E_${contact.id}`).innerHTML = email;
+            document.getElementById(`E_${id}`).innerHTML = email;
 
         document.getElementById(`edit_first_name_${id}`).value = "";
         document.getElementById(`edit_last_name_${id}`).value = "";
