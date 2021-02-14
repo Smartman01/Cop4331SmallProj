@@ -173,7 +173,9 @@ function deleteContact(id)
 		
         var jsonObject = JSON.parse( xhr.responseText );
 
-        document.getElementById(`success_${id}`).innerHTML = jsonObject.message + " search again to see deletion";
+        document.getElementById(`success_${id}`).innerHTML = jsonObject.message;
+
+        document.getElementById(`contact_${id}`).remove();
     }
     catch (err)
     {
@@ -245,9 +247,9 @@ function searchContact()
 function addTable(contact, index)
 {
     // The contact with info
-    let contactInfo = `<div id="contact_${contact.id}"><b>Name</b>: <i id="FN_${contact.id}">${contact.firstName}</i>`;
-    contactInfo += ` <i id="LN_${contact.id}">${contact.lastName}</i> <b>Phone</b>: <i id="P_${contact.id}">${contact.phone}</i>`;
-    contactInfo += ` <b>Email</b>: <i id="E_${contact.id}">${contact.email}</i></div>`;
+    let contactInfo = `<div id="contact_${contact.id}"><b>Name</b>: <id="FN_${contact.id}">${contact.firstName}</>`;
+    contactInfo += ` <id="LN_${contact.id}">${contact.lastName}</> <b>Phone</b>: <id="P_${contact.id}">${contact.phone}</>`;
+    contactInfo += ` <b>Email</b>: <id="E_${contact.id}">${contact.email}</>`;
 
     // Adds the contact and delete button
     let list = `<fieldset>
@@ -284,7 +286,7 @@ function addTable(contact, index)
             </table>
 
             <p id="success_${contact.id}"></p>
-            </fieldset>`
+            </fieldset></div>`
 
     return list;
 }
