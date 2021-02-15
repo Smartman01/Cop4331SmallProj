@@ -38,3 +38,9 @@ li a:hover
 {
     background-color: #000040;
 }
+
+hr.rounded
+{
+  border-top: 3px solid black;
+  border-radius: 5px;
+}
