@@ -133,16 +133,16 @@ function edit(id)
         var jsonObject = JSON.parse( xhr.responseText );
 
         if (firstName != "")
-            document.getElementById(`FN_${id}`).innerHTML = firstName;
+            document.getElementById(`fn_${id}`).innerHTML = firstName;
 
         if (lastName != "")
-            document.getElementById(`LN_${id}`).innerHTML = lastName;
+            document.getElementById(`ln_${id}`).innerHTML = lastName;
 
         if (phone != "")
-            document.getElementById(`P_${id}`).innerHTML = phone;
+            document.getElementById(`p_${id}`).innerHTML = phone;
 
         if (email != "")
-            document.getElementById(`E_${id}`).innerHTML = email;
+            document.getElementById(`e_${id}`).innerHTML = email;
 
         document.getElementById(`edit_first_name_${id}`).value = "";
         document.getElementById(`edit_last_name_${id}`).value = "";
@@ -247,9 +247,9 @@ function searchContact()
 function addTable(contact, index)
 {
     // The contact with info
-    let contactInfo = `<b>Name</b>: <id="FN_${contact.id}">${contact.firstName}</>`;
-    contactInfo += ` <id="LN_${contact.id}">${contact.lastName}</> <b>Phone</b>: <id="P_${contact.id}">${contact.phone}</>`;
-    contactInfo += ` <b>Email</b>: <id="E_${contact.id}">${contact.email}</>`;
+    let contactInfo = `<b>Name</b>: <id="fn_${contact.id}">${contact.firstName}</>`;
+    contactInfo += ` <id="ln_${contact.id}">${contact.lastName}</> <b>Phone</b>: <id="p_${contact.id}">${contact.phone}</>`;
+    contactInfo += ` <b>Email</b>: <id="e_${contact.id}">${contact.email}</>`;
 
     // Adds the contact and delete button
     let list = `<div id="contact_${contact.id}"><fieldset>
